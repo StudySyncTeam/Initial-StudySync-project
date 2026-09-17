@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudySync - Dashboard</title>
+</head>
+<body>
+    <header>
+        <h1>StudySync Dashboard</h1>
+        <p>Welcome back, <strong>{{ current_user.username }}</strong>! | <a href="{{ url_for('logout') }}">Logout</a></p>
+    </header>
+
+    <hr>
+
+    <main>
+        <h3>Overview</h3>
+        <ul>
+            <li><strong>Remaining Budget:</strong> ₱{{ "%.2f"|format(remaining_budget) }}</li>
+            <li><strong>Pending Tasks:</strong> {{ pending_tasks }} task(s) remaining</li>
+        </ul>
+
+        <h3>Quick Navigation</h3>
+        <ul>
+            <li><a href="/budget">Budget Tracker</a></li>
+            <li><a href="/tasks">To-Do List</a></li>
+            <li><a href="/schedule">Class Schedule</a></li>
+            <li><a href="/notes">Notes</a></li>
+            <li><a href="/flashcards">Flashcards</a></li>
+        </ul>
+    </main>
+</body>
+</html>

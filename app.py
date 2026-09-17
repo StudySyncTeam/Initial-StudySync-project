@@ -34,6 +34,14 @@ def load_user(user_id):
         return User(user["id"], user["username"], user["email"])
     return None
 
+# --- GENERAL ROUTES ---
+
+@app.route("/")
+def index():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
+    return redirect(url_for("login"))
+
 # --- AUTHENTICATION ROUTES ---
 
 @app.route("/register", methods=["GET", "POST"])
@@ -57,7 +65,7 @@ def register():
             flash("Account created! Please log in.", "success")
             return redirect(url_for("login"))
         except mysql.connector.Error as err:
-            flash(f"Error: Username or Email already exists.", "danger")
+            flash("Error: Username or Email already exists.", "danger")
         finally:
             cursor.close()
             db.close()
@@ -94,10 +102,42 @@ def logout():
     flash("Logged out successfully.", "info")
     return redirect(url_for("login"))
 
+# --- DASHBOARD ROUTE (PHASE 4) ---
+
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return f"<h1>Welcome, {current_user.username}!</h1><a href='/logout'>Logout</a>"
+    pending_tasks = 0
+    remaining_budget = 0.0
+
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    
+    # Safely query pending tasks count
+    try:
+        cursor.execute("SELECT COUNT(*) AS pending_count FROM tasks WHERE user_id = %s AND completed = FALSE", (current_user.id,))
+        task_row = cursor.fetchone()
+        if task_row:
+            pending_tasks = task_row["pending_count"]
+    except mysql.connector.Error:
+        pending_tasks = 0
+
+    # Safely query allowance and remaining budget
+    try:
+        cursor.execute("SELECT * FROM allowances WHERE user_id = %s ORDER BY created_at DESC LIMIT 1", (current_user.id,))
+        allowance = cursor.fetchone()
+        if allowance:
+            cursor.execute("SELECT SUM(amount) AS total_expenses FROM expenses WHERE user_id = %s AND allowance_id = %s", (current_user.id, allowance["id"]))
+            expenses = cursor.fetchone()
+            total_expenses = expenses["total_expenses"] or 0
+            remaining_budget = allowance["amount"] - total_expenses
+    except mysql.connector.Error:
+        remaining_budget = 0.0
+
+    cursor.close()
+    db.close()
+    
+    return render_template("dashboard.html", pending_tasks=pending_tasks, remaining_budget=remaining_budget)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(host="0.0.0.0", debug=True, port=5001)
