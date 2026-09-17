@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List | StudySync</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <a href="/" class="back-link">← Back to Dashboard</a>
+    <h1>To-Do List</h1>
+
+    <!-- ADD TASK FORM -->
+    <form action="/todo" method="POST" class="task-form">
+        <input type="text" name="title" placeholder="Enter a new task..." required>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <!-- TASK LIST DISPLAY -->
+    <ul class="task-list">
+        {% for task in tasks %}
+            <li>
+                <span>{{ task.title }}</span>
+                <a href="/delete-task/{{ task.id }}" class="delete-btn">Delete</a>
+            </li>
+        {% else %}
+            <li class="empty">No tasks found. Add your first task above!</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
