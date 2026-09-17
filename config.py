@@ -7,3 +7,7 @@ DB_CONFIG = {
     "database": os.environ.get("DB_NAME", "studysync"),
     "port": int(os.environ.get("DB_PORT", 3306))
 }
+
+# If running in cloud, handle SSL parameters dynamically
+if os.environ.get("DB_HOST"):
+    DB_CONFIG["ssl_disabled"] = False
