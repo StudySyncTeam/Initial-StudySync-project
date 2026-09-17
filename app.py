@@ -123,7 +123,7 @@ def dashboard():
         task_row = cursor.fetchone()
         if task_row:
             pending_tasks = task_row["pending_count"]
-    except mysql.connector.Error:
+    except mysql.connector.Erhboarror:
         pending_tasks = 0
 
     # Query allowance and remaining budget
@@ -141,7 +141,7 @@ def dashboard():
     cursor.close()
     db.close()
     
-    return render_template("dashboard.html", pending_tasks=pending_tasks, remaining_budget=remaining_budget)
+    return render_template("login.html", pending_tasks=pending_tasks, remaining_budget=remaining_budget)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True, port=5001)
