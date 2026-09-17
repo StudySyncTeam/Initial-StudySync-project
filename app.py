@@ -47,6 +47,9 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
+
     if request.method == "POST":
         username = request.form.get("username", "").strip()
         email = request.form.get("email", "").strip()
@@ -64,14 +67,15 @@ def register():
             db.commit()
             flash("Account created! Please log in.", "success")
             return redirect(url_for("login"))
-        except mysql.connector.Error as err:
+        except mysql.connector.Error:
             flash("Error: Username or Email already exists.", "danger")
-            return redirect(url_for("login"))
+            return redirect(url_for("register"))
         finally:
             cursor.close()
             db.close()
 
-    return redirect(url_for("login"))
+    # Renders separate registration page for GET requests
+    return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -123,7 +127,7 @@ def dashboard():
         task_row = cursor.fetchone()
         if task_row:
             pending_tasks = task_row["pending_count"]
-    except mysql.connector.Erhboarror:
+    except mysql.connector.Error:
         pending_tasks = 0
 
     # Query allowance and remaining budget
