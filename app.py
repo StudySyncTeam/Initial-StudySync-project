@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 import mysql.connector
 from config import DB_CONFIG
 
 app = Flask(__name__)
-app.secret_key = "super_secret_key_change_in_production"
+app.secret_key = os.environ.get("SECRET_KEY", "super-secret-key-for-local-dev")
 
 # Initialize Flask-Login
 login_manager = LoginManager()
