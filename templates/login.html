@@ -4,39 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- CSS Link -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-    <!-- Boxicons Link -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-
-    <title>Login & Register - StudySync</title>
+    <title>Login - StudySync</title>
 </head>
 
 <body>
 
     <div class="container" id="container">
-        <!-- Sign Up Form -->
-        <div class="form-container sign-up">
-            <form action="{{ url_for('register') }}" method="POST">
-                <h1>Create Account</h1>
-                <div class="social-icons">
-                    <a href="#" class="icons"><i class="bx bxl-google"></i></a>
-                    <a href="#" class="icons"><i class="bx bxl-facebook"></i></a>
-                    <a href="#" class="icons"><i class="bx bxl-github"></i></a>
-                    <a href="#" class="icons"><i class="bx bxl-linkedin"></i></a>
-                </div>
-                <span>Register with E-mail</span>
-                <input type="text" name="username" placeholder="Name" required>
-                <input type="email" name="email" placeholder="Enter E-mail" required>
-                <input type="password" name="password" placeholder="Enter Password" required>
-                <button type="submit">Sign Up</button>
-            </form>
-        </div>
-
         <!-- Sign In Form -->
-        <div class="form-container sign-in">
+        <div class="form-container sign-in" style="width: 50%; left: 0;">
             <form action="{{ url_for('login') }}" method="POST">
                 <h1>Sign In</h1>
                 <div class="social-icons">
@@ -53,26 +30,20 @@
             </form>
         </div>
 
-        <!-- Toggle Panel Container -->
-        <div class="toggle-container">
+        <!-- Right Side Overlay Container -->
+        <div class="toggle-container" style="left: 50%; width: 50%;">
             <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
-                    <p>Already have an account? Sign in with your email & password.</p>
-                    <button class="hidden" id="login">Sign In</button>
-                </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Welcome to StudySync!</h1>
                     <p>Your ultimate academic co-pilot!</p>
-                    <button class="hidden" id="register">Sign Up</button>
+                    <a href="{{ url_for('register') }}" class="button-link">
+                        <button type="button" class="hidden">Sign Up</button>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript Link (Flask Dynamic Path) -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>
-
