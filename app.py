@@ -5,7 +5,7 @@ import os
 import mysql.connector
 from config import DB_CONFIG
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.secret_key = os.environ.get("SECRET_KEY", "super-secret-key-for-local-dev")
 
 # Initialize Flask-Login
@@ -48,11 +48,10 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        username = request.form["username"].strip()
-        email = request.form["email"].strip()
-        password = request.form["password"]
+        username = request.form.get("username", "").strip()
+        email = request.form.get("email", "").strip()
+        password = request.form.get("password", "")
 
-        # Password Hashing
         hashed_password = generate_password_hash(password)
 
         db = get_db()
@@ -67,17 +66,21 @@ def register():
             return redirect(url_for("login"))
         except mysql.connector.Error as err:
             flash("Error: Username or Email already exists.", "danger")
+            return redirect(url_for("login"))
         finally:
             cursor.close()
             db.close()
 
-    return render_template("register.html")
+    return redirect(url_for("login"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
+
     if request.method == "POST":
-        email = request.form["email"].strip()
-        password = request.form["password"]
+        email = request.form.get("email", "").strip()
+        password = request.form.get("password", "")
 
         db = get_db()
         cursor = db.cursor(dictionary=True)
@@ -103,7 +106,7 @@ def logout():
     flash("Logged out successfully.", "info")
     return redirect(url_for("login"))
 
-# --- DASHBOARD ROUTE (PHASE 4) ---
+# --- DASHBOARD ROUTE ---
 
 @app.route("/dashboard")
 @login_required
@@ -114,7 +117,7 @@ def dashboard():
     db = get_db()
     cursor = db.cursor(dictionary=True)
     
-    # Safely query pending tasks count
+    # Query pending tasks count
     try:
         cursor.execute("SELECT COUNT(*) AS pending_count FROM tasks WHERE user_id = %s AND completed = FALSE", (current_user.id,))
         task_row = cursor.fetchone()
@@ -123,7 +126,7 @@ def dashboard():
     except mysql.connector.Error:
         pending_tasks = 0
 
-    # Safely query allowance and remaining budget
+    # Query allowance and remaining budget
     try:
         cursor.execute("SELECT * FROM allowances WHERE user_id = %s ORDER BY created_at DESC LIMIT 1", (current_user.id,))
         allowance = cursor.fetchone()

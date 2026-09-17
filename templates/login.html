@@ -5,71 +5,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- CSS Link -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>        <!--https://boxicons.com/ -->
+    <!-- Boxicons Link -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
-    <title>Login & Register Page  ->> Code With Patel</title>
+    <title>Login & Register - StudySync</title>
 </head>
 
 <body>
 
     <div class="container" id="container">
+        <!-- Sign Up Form -->
         <div class="form-container sign-up">
-            <form>
+            <form action="{{ url_for('register') }}" method="POST">
                 <h1>Create Account</h1>
                 <div class="social-icons">
-                    <a href="#" class="icons"><i class='bx bxl-google'></i></a>
-                    <a href="#" class="icons"><i class='bx bxl-facebook'></i></a>
-                    <a href="#" class="icons"><i class='bx bxl-github'></i></a>
-                    <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-google"></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-facebook"></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-github"></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-linkedin"></i></a>
                 </div>
                 <span>Register with E-mail</span>
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Enter E-mail">
-                <input type="password" placeholder="Enter Password">
-                <button>Sign Up</button>
+                <input type="text" name="username" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Enter E-mail" required>
+                <input type="password" name="password" placeholder="Enter Password" required>
+                <button type="submit">Sign Up</button>
             </form>
         </div>
 
-
+        <!-- Sign In Form -->
         <div class="form-container sign-in">
-            <form>
+            <form action="{{ url_for('login') }}" method="POST">
                 <h1>Sign In</h1>
                 <div class="social-icons">
-                    <a href="#" class="icons"><i class='bx bxl-google'></i></a>
-                    <a href="#" class="icons"><i class='bx bxl-facebook'></i></a>
-                    <a href="#" class="icons"><i class='bx bxl-github'></i></a>
-                    <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-google"></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-facebook"></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-github"></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-linkedin"></i></a>
                 </div>
                 <span>Login With Email & Password</span>
-                <input type="email" placeholder="Enter E-mail">
-                <input type="password" placeholder="Enter Password">
-                <a href="#">Forget Password?</a>
-                <button>Sign In</button>
+                <input type="email" name="email" placeholder="Enter E-mail" required>
+                <input type="password" name="password" placeholder="Enter Password" required>
+                <a href="#">Forgot Password?</a>
+                <button type="submit">Sign In</button>
             </form>
         </div>
 
-
+        <!-- Toggle Panel Container -->
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
-                    <h1>New to our page?</h1>
-                    <p>Sign in With ID & Passowrd</p>
+                    <h1>Welcome Back!</h1>
+                    <p>Already have an account? Sign in with your email & password.</p>
                     <button class="hidden" id="login">Sign In</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                    <h1>Welcome to StudeIO!</h1>
-                    <p>Your ultimate academic co-pilot! </p>
+                    <h1>Welcome to StudySync!</h1>
+                    <p>Your ultimate academic co-pilot!</p>
                     <button class="hidden" id="register">Sign Up</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- JavaScript Link (Flask Dynamic Path) -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>
-
 
