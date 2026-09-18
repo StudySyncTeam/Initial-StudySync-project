@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resend Confirmation - StudelO</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #2b2b2b;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .card {
+      background: #6e6e6e;
+      border-radius: 18px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+
+    h1 {
+      color: #111;
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0 0 12px;
+    }
+
+    p.subtitle {
+      color: #e8e8e8;
+      margin: 0 0 28px;
+      font-size: 0.95rem;
+    }
+
+    .flash {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+
+    .flash li {
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .flash li.success { background: #d9f2c4; color: #2f5c1a; }
+    .flash li.info { background: #d6ecff; color: #164a7a; }
+    .flash li.warning { background: #fff0c2; color: #7a5a00; }
+    .flash li.danger { background: #ffd6d6; color: #8a1f1f; }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #ececec;
+      color: #333;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    input[type="email"]::placeholder {
+      color: #888;
+    }
+
+    input[type="email"]:focus {
+      outline: 2px solid #8bc53f;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #8bc53f;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #79ad33;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 22px;
+      color: #eaeaea;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Resend Confirmation</h1>
+    <p class="subtitle">Enter your email and we'll send a new confirmation link.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('resend_confirmation') }}">
+      <input type="email" name="email" placeholder="Enter E-mail" required>
+      <button type="submit">RESEND EMAIL</button>
+    </form>
+
+    <a class="back-link" href="{{ url_for('login') }}">Back to Sign In</a>
+  </div>
+</body>
+</html>
