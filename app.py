@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import mysql.connector
 from config import DB_CONFIG
+from email_validator import validate_email, EmailNotValidError
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.secret_key = os.environ.get("SECRET_KEY", "super-secret-key-for-local-dev")
@@ -55,6 +56,24 @@ def register():
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "")
 
+        # 1. Validate Form Inputs
+        if not username or not email or not password:
+            flash("All fields are required.", "danger")
+            return redirect(url_for("register"))
+
+        if len(password) < 6:
+            flash("Password must be at least 6 characters long.", "danger")
+            return redirect(url_for("register"))
+
+        # 2. Strict Real/Official Email Domain Validation
+        try:
+            # check_deliverability=True verifies real MX records exist on the domain
+            valid = validate_email(email, check_deliverability=True)
+            email = valid.normalized
+        except EmailNotValidError as e:
+            flash("Please enter a valid, active official email address.", "danger")
+            return redirect(url_for("register"))
+
         hashed_password = generate_password_hash(password)
 
         db = get_db()
@@ -68,13 +87,12 @@ def register():
             flash("Account created! Please log in.", "success")
             return redirect(url_for("login"))
         except mysql.connector.Error:
-            flash("Error: Username or Email already exists.", "danger")
+            flash("An account with this username or email already exists.", "danger")
             return redirect(url_for("register"))
         finally:
             cursor.close()
             db.close()
 
-    # Renders separate registration page for GET requests
     return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -85,6 +103,19 @@ def login():
     if request.method == "POST":
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "")
+
+        # Basic input check
+        if not email or not password:
+            flash("Please enter both email and password.", "danger")
+            return render_template("login.html")
+
+        # Validate format
+        try:
+            valid = validate_email(email, check_deliverability=False)
+            email = valid.normalized
+        except EmailNotValidError:
+            flash("Invalid username/email or password.", "danger")
+            return render_template("login.html")
 
         db = get_db()
         cursor = db.cursor(dictionary=True)
@@ -99,7 +130,7 @@ def login():
             login_user(user_obj)
             return redirect(url_for("dashboard"))
         else:
-            flash("Invalid email or password.", "danger")
+            flash("Invalid username/email or password.", "danger")
 
     return render_template("login.html")
 
@@ -121,7 +152,6 @@ def dashboard():
     db = get_db()
     cursor = db.cursor(dictionary=True)
     
-    # Query pending tasks count
     try:
         cursor.execute("SELECT COUNT(*) AS pending_count FROM tasks WHERE user_id = %s AND completed = FALSE", (current_user.id,))
         task_row = cursor.fetchone()
@@ -130,7 +160,6 @@ def dashboard():
     except mysql.connector.Error:
         pending_tasks = 0
 
-    # Query allowance and remaining budget
     try:
         cursor.execute("SELECT * FROM allowances WHERE user_id = %s ORDER BY created_at DESC LIMIT 1", (current_user.id,))
         allowance = cursor.fetchone()

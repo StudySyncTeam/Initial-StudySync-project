@@ -36,6 +36,18 @@
                     <a href="#" class="icons"><i class="bx bxl-linkedin"></i></a>
                 </div>
                 <span>Register with E-mail</span>
+
+                <!-- STEP 3: Flash Messages Block -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div style="color: #ff4d4d; font-size: 13px; margin: 8px 0; font-weight: bold; text-align: center;">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="email" name="email" placeholder="Enter E-mail" required>
                 <input type="password" name="password" placeholder="Enter Password" required>
