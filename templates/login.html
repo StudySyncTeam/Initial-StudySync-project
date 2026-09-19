@@ -6,14 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <title>Login - StudySync</title>
+    <title>StudySync - Authentication</title>
 </head>
 
 <body>
 
-    <div class="container" id="container">
-        <!-- Sign In Form -->
-        <div class="form-container sign-in" style="width: 50%; left: 0;">
+    <div class="container {% if request.path == '/register' %}active{% endif %}" id="container">
+        
+        <!-- SIGN UP FORM -->
+        <div class="form-container sign-up">
+            <form action="{{ url_for('register') }}" method="POST">
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a href="#" class="icons"><i class="bx bxl-google"></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-facebook"></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-github"></i></a>
+                    <a href="#" class="icons"><i class="bx bxl-linkedin"></i></a>
+                </div>
+                <span>Register with E-mail</span>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div style="color: #ec1a1a; font-size: 13px; margin: 8px 0; font-weight: bold; text-align: center;">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Enter E-mail" required>
+                <input type="password" name="password" placeholder="Enter Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+
+        <!-- SIGN IN FORM -->
+        <div class="form-container sign-in">
             <form action="{{ url_for('login') }}" method="POST">
                 <h1>Sign In</h1>
                 <div class="social-icons">
@@ -22,9 +52,8 @@
                     <a href="#" class="icons"><i class="bx bxl-github"></i></a>
                     <a href="#" class="icons"><i class="bx bxl-linkedin"></i></a>
                 </div>
-                <span>Login With Email & Password</span>
+                <span>Login With Email or Username</span>
 
-                <!-- STEP 3: Flash Messages Block -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                   {% if messages %}
                     {% for category, message in messages %}
@@ -35,28 +64,34 @@
                   {% endif %}
                 {% endwith %}
 
-                <input type="user" name="user" placeholder="Enter user" required>
-                <input type="email" name="email" placeholder="Enter E-mail" required>
+                <!-- Single input field for Email or Username matching app.py logic -->
+                <input type="text" name="email" placeholder="Enter Email or Username" required>
                 <input type="password" name="password" placeholder="Enter Password" required>
-                <a href="#">Forgot Password?</a>
+                <a href="{{ url_for('resend_confirmation') }}">Resend confirmation email?</a>
                 <button type="submit">Sign In</button>
             </form>
         </div>
 
-        <!-- Right Side Overlay Container -->
-        <div class="toggle-container" style="left: 50%; width: 50%;">
+        <!-- OVERLAY SLIDER CONTAINER -->
+        <div class="toggle-container">
             <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected, please login with your personal info</p>
+                    <button class="hidden" id="login" type="button">Sign In</button>
+                </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Welcome to StudeIO!</h1>
                     <p>Your ultimate academic co-pilot!</p>
-                    <a href="{{ url_for('register') }}" class="button-link">
-                        <button type="button" class="hidden">Sign Up</button>
-                    </a>
+                    <button class="hidden" id="register" type="button">Sign Up</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>
+
+git add templates\login.html
