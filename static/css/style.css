@@ -10,21 +10,26 @@
 }
 
 :root {
-    /* Color Palette */
-    --bg-dark: #0b0f19;
-    --card-bg: rgba(22, 28, 45, 0.65);
+    /* Color Palette matched to screenshot */
+    --bg-dark: #222222;
+    --card-bg: #5c5c5c;
     --card-border: rgba(255, 255, 255, 0.08);
-    --text-primary: #f3f4f6;
-    --text-secondary: #9ca3af;
-    --accent-blue: #2e8d29;
-    --accent-gradient: linear-gradient(135deg, #80a547 0%, #4baf98 100%);
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    
+    /* Vibrant Lime Green Theme */
+    --lime-primary: #8ac919;
+    --lime-hover: #7bb514;
+    --accent-blue: var(--lime-primary);
+    --accent-gradient: linear-gradient(135deg, #8ac919 0%, #75ae13 100%);
     
     /* Form & Input Variables */
-    --input-bg: rgba(32, 42, 15, 0.6);
-    --input-border: rgba(255, 255, 255, 0.12);
+    --input-bg: #ececec;
+    --input-border: transparent;
+    --input-text: #333333;
     
     /* Border Radius System */
-    --radius-lg: 18px;
+    --radius-lg: 24px;
     --radius-md: 12px;
     --radius-sm: 8px;
     
@@ -49,7 +54,7 @@ body {
 }
 
 /* ==========================================================================
-   3. BACKGROUND EFFECTS & ANIMATIONS
+   3. BACKGROUND EFFECTS
    ========================================================================== */
 #particles {
     position: fixed;
@@ -65,34 +70,31 @@ body {
     position: fixed;
     border-radius: 50%;
     filter: blur(120px);
-    opacity: 0.35;
+    opacity: 0.15;
     pointer-events: none;
     z-index: 0;
 }
 
-/* Primary Emerald Green */
 .blob1 {
     width: 400px;
     height: 400px;
-    background: #10b981;
+    background: var(--lime-primary);
     top: -100px;
     left: -100px;
 }
 
-/* Electric Neon Lime / Accent Green */
 .blob2 {
     width: 450px;
     height: 450px;
-    background: #84cc16;
+    background: #a1e220;
     bottom: -150px;
     right: -100px;
 }
 
-/* Deep Cyan / Mint Spark */
 .blob3 {
     width: 300px;
     height: 300px;
-    background: #059669;
+    background: var(--lime-primary);
     top: 40%;
     left: 35%;
 }
@@ -126,23 +128,25 @@ body {
 .stage {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    gap: 30px;
+    gap: 0;
     background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 24px;
-    padding: 40px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
 }
 
 /* ==========================================================================
-   5. SHOWCASE SECTION & BRANDING
+   5. SHOWCASE SECTION (Vibrant Lime Side Panel)
    ========================================================================== */
 .showcase {
+    background: var(--lime-primary);
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
 }
 
 .brand {
@@ -150,7 +154,7 @@ body {
     font-weight: 700;
     letter-spacing: 2px;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: #ffffff;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -160,31 +164,32 @@ body {
 .brand .dot {
     width: 8px;
     height: 8px;
-    background: var(--accent-blue);
+    background: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent-blue);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
 .showcase h1 {
     font-family: var(--font-heading);
     font-size: 2.5rem;
     line-height: 1.15;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     font-weight: 700;
+    color: #ffffff;
 }
 
 .showcase h1 .grad {
-    background: var(--accent-gradient);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff;
+    background: none;
+    -webkit-text-fill-color: initial;
 }
 
 .lede {
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.9);
     font-size: 0.95rem;
     line-height: 1.5;
     margin-bottom: 30px;
+    max-width: 380px;
 }
 
 /* ==========================================================================
@@ -195,24 +200,24 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     perspective: 1000px;
+    width: 100%;
 }
 
 .bento-item {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 16px;
     border-radius: 14px;
-
+    text-align: left;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .bento-item:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(159, 232, 56, 0.5);
-    /* Softens the border edge further using a matching subtle outer glow */
-    box-shadow: 0 0 12px rgba(159, 232, 56, 0.15); 
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #ffffff;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2); 
 }
 
 .bento-item.wide {
@@ -223,23 +228,25 @@ body {
     width: 32px;
     height: 32px;
     margin-bottom: 8px;
+    color: #ffffff;
 }
 
 .bento-item .ic svg {
     width: 100%;
     height: 100%;
+    fill: currentColor;
 }
 
 .bento-item .t {
     font-weight: 600;
     font-size: 0.85rem;
     margin-bottom: 2px;
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .bento-item .d {
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.85);
     line-height: 1.3;
 }
 
@@ -247,17 +254,16 @@ body {
    7. AUTHENTICATION PANEL & TABS
    ========================================================================== */
 .auth-panel {
-    background: rgba(10, 26, 10, 0.5);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    padding: 30px;
+    background: var(--card-bg);
+    padding: 40px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .tabs {
     display: flex;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(0, 0, 0, 0.2);
     padding: 4px;
     border-radius: var(--radius-md);
     margin-bottom: 25px;
@@ -277,9 +283,9 @@ body {
 }
 
 .tabs button.active {
-    background: var(--accent-blue);
+    background: var(--lime-primary);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(59, 246, 68, 0.344);
+    box-shadow: 0 4px 12px rgba(138, 201, 25, 0.35);
 }
 
 /* ==========================================================================
@@ -296,22 +302,24 @@ body {
 
 .auth-form h1 {
     font-family: var(--font-heading);
-    font-size: 1.6rem;
-    margin-bottom: 4px;
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+    color: #ffffff;
+    font-weight: 700;
 }
 
 .auth-form span {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 20px;
 }
 
 .auth-form input {
     background: var(--input-bg);
-    border: 1px solid var(--input-border);
+    border: var(--input-border);
     border-radius: var(--radius-md);
-    padding: 12px 16px;
-    color: var(--text-primary);
+    padding: 14px 18px;
+    color: var(--input-text);
     font-size: 0.9rem;
     margin-bottom: 14px;
     outline: none;
@@ -319,30 +327,34 @@ body {
 }
 
 .auth-form input:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(59, 246, 143, 0.11);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(138, 201, 25, 0.4);
 }
 
 .auth-form input::placeholder {
-    color: rgba(156, 163, 175, 0.6);
+    color: #888888;
 }
 
 .btn-submit {
-    background: var(--accent-gradient);
+    background: var(--lime-primary);
     border: none;
     color: #ffffff;
-    padding: 12px;
+    padding: 14px;
     border-radius: var(--radius-md);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 15px rgba(85, 247, 228, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 15px rgba(138, 201, 25, 0.3);
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .btn-submit:hover {
+    background: var(--lime-hover);
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(85, 247, 155, 0.4);
+    box-shadow: 0 6px 20px rgba(138, 201, 25, 0.45);
 }
 
 .btn-submit:active {
@@ -355,13 +367,16 @@ body {
 @media (max-width: 900px) {
     .stage {
         grid-template-columns: 1fr;
-        padding: 25px;
     }
     
     .showcase {
-        margin-bottom: 10px;
+        padding: 30px 25px;
     }
-    
+
+    .auth-panel {
+        padding: 30px 25px;
+    }
+
     .showcase h1 {
         font-size: 2rem;
     }
@@ -374,9 +389,5 @@ body {
     
     .bento-item.wide {
         grid-column: span 1;
-    }
-
-    .auth-panel {
-        padding: 20px;
     }
 }
