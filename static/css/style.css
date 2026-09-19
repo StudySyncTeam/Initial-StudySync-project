@@ -13,9 +13,9 @@
     --card-border: rgba(255, 255, 255, 0.08);
     --text-primary: #f3f4f6;
     --text-secondary: #9ca3af;
-    --accent-blue: #38ba31;
-    --accent-gradient: linear-gradient(135deg, #a0d84d 0%, #55f78e 100%);
-    --input-bg: rgba(15, 23, 42, 0.6);
+    --accent-blue: #2e8d29;
+    --accent-gradient: linear-gradient(135deg, #a0d84d 0%, #55f7d1 100%);
+    --input-bg: rgba(32, 42, 15, 0.6);
     --input-border: rgba(255, 255, 255, 0.12);
     --radius-lg: 18px;
     --radius-md: 12px;
@@ -255,7 +255,7 @@ body {
 .tabs button.active {
     background: var(--accent-blue);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(115, 246, 59, 0.3);
 }
 
 .auth-form {
@@ -293,7 +293,7 @@ body {
 
 .auth-form input:focus {
     border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 0 3px rgba(59, 246, 143, 0.2);
 }
 
 .auth-form input::placeholder {
@@ -310,12 +310,12 @@ body {
     font-size: 0.95rem;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+    box-shadow: 0 4px 15px rgba(85, 247, 228, 0.3);
 }
 
 .btn-submit:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+    box-shadow: 0 6px 20px rgba(85, 247, 188, 0.4);
 }
 
 .btn-submit:active {
