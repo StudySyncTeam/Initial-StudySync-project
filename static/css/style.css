@@ -8,15 +8,15 @@
 }
 
 :root {
-    --bg-dark: #0b0f19;
-    --card-bg: rgba(22, 28, 45, 0.65);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --text-primary: #f3f4f6;
-    --text-secondary: #9ca3af;
-    --accent-blue: #2e8d29;
-    --accent-gradient: linear-gradient(135deg, #80a547 0%, #4baf98 100%);
-    --input-bg: rgba(32, 42, 15, 0.6);
-    --input-border: rgba(255, 255, 255, 0.12);
+    --bg-dark: #06110d;
+    --card-bg: rgba(12, 28, 20, 0.7);
+    --card-border: rgba(34, 197, 94, 0.15);
+    --text-primary: #f0fdf4;
+    --text-secondary: #86efac;
+    --accent-blue: #10b981; /* Primary Green Accent */
+    --accent-gradient: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+    --input-bg: rgba(6, 78, 59, 0.25);
+    --input-border: rgba(52, 211, 153, 0.2);
     --radius-lg: 18px;
     --radius-md: 12px;
     --radius-sm: 8px;
@@ -67,7 +67,7 @@ body {
     left: -100px;
 }
 
-/* Electric Neon Lime / Accent Green */
+/* Electric Neon Lime */
 .blob2 {
     width: 450px;
     height: 450px;
@@ -76,7 +76,7 @@ body {
     right: -100px;
 }
 
-/* Deep Cyan / Mint Spark */
+/* Deep Mint Spark */
 .blob3 {
     width: 300px;
     height: 300px;
@@ -92,7 +92,7 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    background: radial-gradient(600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.04), transparent 80%);
+    background: radial-gradient(600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(52, 211, 153, 0.06), transparent 80%);
     z-index: 1;
 }
 
@@ -117,7 +117,7 @@ body {
     -webkit-backdrop-filter: blur(20px);
     border-radius: 24px;
     padding: 40px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(16, 185, 129, 0.05);
 }
 
 /* ==========================================================================
@@ -144,9 +144,9 @@ body {
 .brand .dot {
     width: 8px;
     height: 8px;
-    background: var(--accent-blue);
+    background: #34d399;
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent-blue);
+    box-shadow: 0 0 10px #34d399;
 }
 
 .showcase h1 {
@@ -158,14 +158,15 @@ body {
 }
 
 .showcase h1 .grad {
-    background: var(--accent-gradient);
+    background: linear-gradient(135deg, #a7f3d0 0%, #34d399 50%, #10b981 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .lede {
-    color: var(--text-secondary);
+    color: #a7f3d0;
+    opacity: 0.8;
     font-size: 0.95rem;
     line-height: 1.5;
     margin-bottom: 30px;
@@ -180,8 +181,8 @@ body {
 }
 
 .bento-item {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(16, 185, 129, 0.04);
+    border: 1px solid rgba(52, 211, 153, 0.12);
     padding: 16px;
     border-radius: 14px;
     transform-style: preserve-3d;
@@ -190,8 +191,8 @@ body {
 }
 
 .bento-item:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(159, 232, 56, 0.4);
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(52, 211, 153, 0.4);
 }
 
 .bento-item.wide {
@@ -202,11 +203,13 @@ body {
     width: 32px;
     height: 32px;
     margin-bottom: 8px;
+    color: #34d399;
 }
 
 .bento-item .ic svg {
     width: 100%;
     height: 100%;
+    fill: currentColor;
 }
 
 .bento-item .t {
@@ -218,7 +221,8 @@ body {
 
 .bento-item .d {
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: #a7f3d0;
+    opacity: 0.75;
     line-height: 1.3;
 }
 
@@ -226,7 +230,7 @@ body {
    5. AUTH PANEL & FORMS
    ========================================================================== */
 .auth-panel {
-    background: rgba(10, 15, 26, 0.5);
+    background: rgba(6, 20, 14, 0.6);
     border: 1px solid var(--card-border);
     border-radius: var(--radius-lg);
     padding: 30px;
@@ -236,17 +240,18 @@ body {
 
 .tabs {
     display: flex;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(16, 185, 129, 0.08);
     padding: 4px;
     border-radius: var(--radius-md);
     margin-bottom: 25px;
+    border: 1px solid rgba(52, 211, 153, 0.1);
 }
 
 .tabs button {
     flex: 1;
     background: none;
     border: none;
-    color: var(--text-secondary);
+    color: #a7f3d0;
     padding: 10px 0;
     font-size: 0.85rem;
     font-weight: 600;
@@ -256,9 +261,9 @@ body {
 }
 
 .tabs button.active {
-    background: var(--accent-blue);
+    background: var(--accent-gradient);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(115, 246, 59, 0.3);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
 }
 
 .auth-form {
@@ -278,7 +283,8 @@ body {
 
 .auth-form span {
     font-size: 0.8rem;
-    color: var(--text-secondary);
+    color: #a7f3d0;
+    opacity: 0.8;
     margin-bottom: 20px;
 }
 
@@ -295,12 +301,13 @@ body {
 }
 
 .auth-form input:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(59, 246, 143, 0.11);
+    border-color: #34d399;
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.2);
+    background: rgba(6, 78, 59, 0.4);
 }
 
 .auth-form input::placeholder {
-    color: rgba(156, 163, 175, 0.6);
+    color: rgba(167, 243, 208, 0.4);
 }
 
 .btn-submit {
@@ -313,12 +320,12 @@ body {
     font-size: 0.95rem;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 15px rgba(85, 247, 228, 0.3);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .btn-submit:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(85, 247, 188, 0.4);
+    box-shadow: 0 6px 20px rgba(52, 211, 153, 0.45);
 }
 
 .btn-submit:active {
