@@ -202,14 +202,17 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.07);
     padding: 16px;
     border-radius: 14px;
-    transform-style: preserve-3d;
-    transition: transform 0.15s ease-out, background 0.3s ease, border-color 0.3s ease;
-    will-change: transform;
+
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .bento-item:hover {
     background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(82, 243, 13, 0.726);
+    border-color: rgba(159, 232, 56, 0.5);
+    /* Softens the border edge further using a matching subtle outer glow */
+    box-shadow: 0 0 12px rgba(159, 232, 56, 0.15); 
 }
 
 .bento-item.wide {
