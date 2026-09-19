@@ -19,6 +19,8 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+login_manager.login_message = "Please log in to access this page."
+login_manager.login_message_category = "warning"
 
 def get_db():
     return mysql.connector.connect(**DB_CONFIG)
@@ -96,19 +98,19 @@ def register():
         # 1. Validate Form Inputs
         if not username or not email or not password:
             flash("All fields are required.", "danger")
-            return redirect(url_for("register"))
+            return render_template("login.html")
 
         if len(password) < 6:
             flash("Password must be at least 6 characters long.", "danger")
-            return redirect(url_for("register"))
+            return render_template("login.html")
 
-        # 2. Strict Real/Official Email Domain Validation
+        # 2. Email Validation
         try:
             valid = validate_email(email, check_deliverability=True)
             email = valid.normalized
         except EmailNotValidError:
-            flash("Please enter a valid, active official email address.", "danger")
-            return redirect(url_for("register"))
+            flash("Please enter a valid, active email address.", "danger")
+            return render_template("login.html")
 
         hashed_password = generate_password_hash(password)
 
@@ -122,28 +124,28 @@ def register():
             db.commit()
         except mysql.connector.Error:
             flash("An account with this username or email already exists.", "danger")
-            return redirect(url_for("register"))
+            return render_template("login.html")
         finally:
             cursor.close()
             db.close()
 
-        # 3. Send confirmation email via Brevo API
+        # 3. Send confirmation email
         try:
             send_confirmation_email(email)
             flash("Account created! Check your email to confirm your address before logging in.", "success")
         except Exception:
-            flash("Account created, but the confirmation email failed to send. Please contact support.", "warning")
+            flash("Account created, but confirmation email failed to send. Please contact support.", "warning")
 
         return redirect(url_for("login"))
 
-    return render_template("register.html")
+    return render_template("login.html")
 
 @app.route("/confirm/<token>")
 def confirm_email(token):
     try:
         email = serializer.loads(token, salt="email-confirm-salt", max_age=3600)
     except SignatureExpired:
-        flash("That confirmation link has expired. Please register again or request a new one.", "danger")
+        flash("That confirmation link has expired. Please request a new one.", "danger")
         return redirect(url_for("login"))
     except BadSignature:
         flash("That confirmation link is invalid.", "danger")
@@ -205,34 +207,33 @@ def login():
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "")
 
+        # 1. Reject empty inputs immediately
         if not email or not password:
             flash("Please enter both email and password.", "danger")
             return render_template("login.html")
 
-        try:
-            valid = validate_email(email, check_deliverability=False)
-            email = valid.normalized
-        except EmailNotValidError:
-            flash("Invalid username/email or password.", "danger")
-            return render_template("login.html")
-
+        # 2. Look up user by email or username
         db = get_db()
         cursor = db.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        cursor.execute("SELECT * FROM users WHERE email = %s OR username = %s", (email, email))
         user_data = cursor.fetchone()
         cursor.close()
         db.close()
 
-        if user_data and check_password_hash(user_data["password_hash"], password):
-            if not user_data.get("is_verified", False):
-                flash("Please confirm your email before logging in. Check your inbox, or resend the link.", "warning")
-                return render_template("login.html")
+        # 3. Verify user existence & password matching
+        if not user_data or not check_password_hash(user_data["password_hash"], password):
+            flash("Invalid credentials. Incorrect email, username, or password.", "danger")
+            return render_template("login.html")
 
-            user_obj = User(user_data["id"], user_data["username"], user_data["email"], True)
-            login_user(user_obj)
-            return redirect(url_for("dashboard"))
-        else:
-            flash("Invalid username/email or password.", "danger")
+        # 4. Check verification status
+        if not user_data.get("is_verified", False):
+            flash("Please confirm your email before logging in. Check your inbox or resend the link.", "warning")
+            return render_template("login.html")
+
+        # 5. Success: log in user and send to dashboard
+        user_obj = User(user_data["id"], user_data["username"], user_data["email"], True)
+        login_user(user_obj)
+        return redirect(url_for("dashboard"))
 
     return render_template("login.html")
 
