@@ -14,7 +14,7 @@
     --text-primary: #f3f4f6;
     --text-secondary: #9ca3af;
     --accent-blue: #2e8d29;
-    --accent-gradient: linear-gradient(135deg, #a0d84d 0%, #55f7d1 100%);
+    --accent-gradient: linear-gradient(135deg, #80a547 0%, #4baf98 100%);
     --input-bg: rgba(32, 42, 15, 0.6);
     --input-border: rgba(255, 255, 255, 0.12);
     --radius-lg: 18px;
@@ -58,26 +58,29 @@ body {
     z-index: 0;
 }
 
+/* Primary Emerald Green */
 .blob1 {
     width: 400px;
     height: 400px;
-    background: #4f46e5;
+    background: #10b981;
     top: -100px;
     left: -100px;
 }
 
+/* Electric Neon Lime / Accent Green */
 .blob2 {
     width: 450px;
     height: 450px;
-    background: #9333ea;
+    background: #84cc16;
     bottom: -150px;
     right: -100px;
 }
 
+/* Deep Cyan / Mint Spark */
 .blob3 {
     width: 300px;
     height: 300px;
-    background: #06b6d4;
+    background: #059669;
     top: 40%;
     left: 35%;
 }
@@ -293,7 +296,7 @@ body {
 
 .auth-form input:focus {
     border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(59, 246, 143, 0.2);
+    box-shadow: 0 0 0 3px rgba(59, 246, 143, 0.11);
 }
 
 .auth-form input::placeholder {
