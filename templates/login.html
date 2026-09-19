@@ -27,7 +27,7 @@
                 <span>Register with E-mail</span>
 
                 {% with messages = get_flashed_messages(with_categories=true) %}
-                  {% if messages %}
+                  {% if messages and form_type == 'register' %}
                     {% for category, message in messages %}
                       <div style="color: #ec1a1a; font-size: 13px; margin: 8px 0; font-weight: bold; text-align: center;">
                         {{ message }}
@@ -56,7 +56,7 @@
                 <span>Login With Email or Username</span>
 
                 {% with messages = get_flashed_messages(with_categories=true) %}
-                  {% if messages %}
+                  {% if messages and form_type != 'register' %}
                     {% for category, message in messages %}
                       <div style="color: #4dff5f; font-size: 13px; margin: 8px 0; font-weight: bold; text-align: center;">
                         {{ message }}
@@ -93,3 +93,4 @@
 </body>
 
 </html>
+
