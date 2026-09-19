@@ -11,7 +11,8 @@
 
 <body>
 
-    <div class="container {% if request.path == '/register' %}active{% endif %}" id="container">
+    <!-- UPDATED: Checks path OR form_type to keep the sign-up panel active -->
+    <div class="container {% if request.path == '/register' or form_type == 'register' %}active{% endif %}" id="container">
         
         <!-- SIGN UP FORM -->
         <div class="form-container sign-up">
@@ -64,7 +65,6 @@
                   {% endif %}
                 {% endwith %}
 
-                <!-- Single input field for Email or Username matching app.py logic -->
                 <input type="text" name="email" placeholder="Enter Email or Username" required>
                 <input type="password" name="password" placeholder="Enter Password" required>
                 <a href="{{ url_for('resend_confirmation') }}">Resend confirmation email?</a>

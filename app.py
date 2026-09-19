@@ -98,11 +98,11 @@ def register():
         # 1. Validate Form Inputs
         if not username or not email or not password:
             flash("All fields are required.", "danger")
-            return render_template("login.html")
+            return render_template("login.html", form_type="register")
 
         if len(password) < 6:
             flash("Password must be at least 6 characters long.", "danger")
-            return render_template("login.html")
+            return render_template("login.html", form_type="register")
 
         # 2. Email Validation
         try:
@@ -110,7 +110,7 @@ def register():
             email = valid.normalized
         except EmailNotValidError:
             flash("Please enter a valid, active email address.", "danger")
-            return render_template("login.html")
+            return render_template("login.html", form_type="register")
 
         hashed_password = generate_password_hash(password)
 
@@ -124,7 +124,7 @@ def register():
             db.commit()
         except mysql.connector.Error:
             flash("An account with this username or email already exists.", "danger")
-            return render_template("login.html")
+            return render_template("login.html", form_type="register")
         finally:
             cursor.close()
             db.close()
@@ -138,7 +138,7 @@ def register():
 
         return redirect(url_for("login"))
 
-    return render_template("login.html")
+    return render_template("login.html", form_type="register")
 
 @app.route("/confirm/<token>")
 def confirm_email(token):
@@ -210,7 +210,7 @@ def login():
         # 1. Reject empty inputs immediately
         if not email or not password:
             flash("Please enter both email and password.", "danger")
-            return render_template("login.html")
+            return render_template("login.html", form_type="login")
 
         # 2. Look up user by email or username
         db = get_db()
@@ -223,19 +223,19 @@ def login():
         # 3. Verify user existence & password matching
         if not user_data or not check_password_hash(user_data["password_hash"], password):
             flash("Invalid credentials. Incorrect email, username, or password.", "danger")
-            return render_template("login.html")
+            return render_template("login.html", form_type="login")
 
         # 4. Check verification status
         if not user_data.get("is_verified", False):
             flash("Please confirm your email before logging in. Check your inbox or resend the link.", "warning")
-            return render_template("login.html")
+            return render_template("login.html", form_type="login")
 
         # 5. Success: log in user and send to dashboard
         user_obj = User(user_data["id"], user_data["username"], user_data["email"], True)
         login_user(user_obj)
         return redirect(url_for("dashboard"))
 
-    return render_template("login.html")
+    return render_template("login.html", form_type="login")
 
 @app.route("/logout")
 @login_required
