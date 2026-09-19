@@ -8,16 +8,17 @@
 }
 
 :root {
-    --bg-dark: #06110d;
-    --card-bg: rgba(12, 28, 20, 0.7);
-    --card-border: rgba(34, 197, 94, 0.15);
-    --text-primary: #f0fdf4;
-    --text-secondary: #86efac;
-    --accent-blue: #10b981; /* Primary Green Accent */
-    --accent-gradient: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-    --input-bg: rgba(6, 78, 59, 0.25);
-    --input-border: rgba(52, 211, 153, 0.2);
-    --radius-lg: 18px;
+    --bg-dark: #0f1613;
+    --card-bg: rgba(255, 255, 255, 0.03); /* Ultra-transparent glass */
+    --card-border: rgba(255, 255, 255, 0.07);
+    --text-primary: #f2f7f4;
+    --text-secondary: #a3b8ad;
+    --pastel-green: #a8e6cf; /* Soft pastel green */
+    --pastel-sage: #88d8b0;
+    --accent-gradient: linear-gradient(135deg, rgba(168, 230, 207, 0.8) 0%, rgba(136, 216, 176, 0.8) 100%);
+    --input-bg: rgba(255, 255, 255, 0.03);
+    --input-border: rgba(255, 255, 255, 0.08);
+    --radius-lg: 20px;
     --radius-md: 12px;
     --radius-sm: 8px;
     --font-heading: 'Space Grotesk', sans-serif;
@@ -37,7 +38,7 @@ body {
 }
 
 /* ==========================================================================
-   2. BACKGROUND EFFECTS
+   2. BACKGROUND EFFECTS (Minimal & Soft Pastel)
    ========================================================================== */
 #particles {
     position: fixed;
@@ -52,35 +53,35 @@ body {
 .bg-blob {
     position: fixed;
     border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.35;
+    filter: blur(140px);
+    opacity: 0.18; /* Reduced opacity for softness */
     pointer-events: none;
     z-index: 0;
 }
 
-/* Primary Emerald Green */
+/* Soft Mint Glow */
 .blob1 {
-    width: 400px;
-    height: 400px;
-    background: #10b981;
+    width: 450px;
+    height: 450px;
+    background: #a8e6cf;
     top: -100px;
     left: -100px;
 }
 
-/* Electric Neon Lime */
+/* Muted Sage */
 .blob2 {
-    width: 450px;
-    height: 450px;
-    background: #84cc16;
+    width: 500px;
+    height: 500px;
+    background: #88d8b0;
     bottom: -150px;
     right: -100px;
 }
 
-/* Deep Mint Spark */
+/* Minimal Cream Spark */
 .blob3 {
     width: 300px;
     height: 300px;
-    background: #059669;
+    background: #d8f3dc;
     top: 40%;
     left: 35%;
 }
@@ -92,7 +93,7 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    background: radial-gradient(600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(52, 211, 153, 0.06), transparent 80%);
+    background: radial-gradient(600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(168, 230, 207, 0.04), transparent 80%);
     z-index: 1;
 }
 
@@ -113,11 +114,11 @@ body {
     gap: 30px;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 24px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 28px;
     padding: 40px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(16, 185, 129, 0.05);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
 }
 
 /* ==========================================================================
@@ -131,9 +132,9 @@ body {
 
 .brand {
     font-family: var(--font-heading);
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 2px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
     display: flex;
     align-items: center;
@@ -142,11 +143,11 @@ body {
 }
 
 .brand .dot {
-    width: 8px;
-    height: 8px;
-    background: #34d399;
+    width: 6px;
+    height: 6px;
+    background: var(--pastel-green);
     border-radius: 50%;
-    box-shadow: 0 0 10px #34d399;
+    box-shadow: 0 0 8px var(--pastel-green);
 }
 
 .showcase h1 {
@@ -154,22 +155,22 @@ body {
     font-size: 2.5rem;
     line-height: 1.15;
     margin-bottom: 12px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .showcase h1 .grad {
-    background: linear-gradient(135deg, #a7f3d0 0%, #34d399 50%, #10b981 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #a8e6cf 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .lede {
-    color: #a7f3d0;
-    opacity: 0.8;
+    color: var(--text-secondary);
     font-size: 0.95rem;
-    line-height: 1.5;
+    line-height: 1.6;
     margin-bottom: 30px;
+    font-weight: 300;
 }
 
 /* Bento Grid */
@@ -181,18 +182,18 @@ body {
 }
 
 .bento-item {
-    background: rgba(16, 185, 129, 0.04);
-    border: 1px solid rgba(52, 211, 153, 0.12);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 16px;
-    border-radius: 14px;
+    border-radius: 16px;
     transform-style: preserve-3d;
-    transition: transform 0.15s ease-out, background 0.3s ease, border-color 0.3s ease;
+    transition: all 0.3s ease;
     will-change: transform;
 }
 
 .bento-item:hover {
-    background: rgba(16, 185, 129, 0.12);
-    border-color: rgba(52, 211, 153, 0.4);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(168, 230, 207, 0.25);
 }
 
 .bento-item.wide {
@@ -200,10 +201,11 @@ body {
 }
 
 .bento-item .ic {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 8px;
-    color: #34d399;
+    width: 28px;
+    height: 28px;
+    margin-bottom: 10px;
+    color: var(--pastel-green);
+    opacity: 0.9;
 }
 
 .bento-item .ic svg {
@@ -213,24 +215,24 @@ body {
 }
 
 .bento-item .t {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.85rem;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
     color: var(--text-primary);
 }
 
 .bento-item .d {
     font-size: 0.75rem;
-    color: #a7f3d0;
-    opacity: 0.75;
-    line-height: 1.3;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    font-weight: 300;
 }
 
 /* ==========================================================================
    5. AUTH PANEL & FORMS
    ========================================================================== */
 .auth-panel {
-    background: rgba(6, 20, 14, 0.6);
+    background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--card-border);
     border-radius: var(--radius-lg);
     padding: 30px;
@@ -240,30 +242,30 @@ body {
 
 .tabs {
     display: flex;
-    background: rgba(16, 185, 129, 0.08);
+    background: rgba(0, 0, 0, 0.2);
     padding: 4px;
     border-radius: var(--radius-md);
     margin-bottom: 25px;
-    border: 1px solid rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .tabs button {
     flex: 1;
     background: none;
     border: none;
-    color: #a7f3d0;
+    color: var(--text-secondary);
     padding: 10px 0;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     border-radius: var(--radius-sm);
     transition: all 0.3s ease;
 }
 
 .tabs button.active {
-    background: var(--accent-gradient);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    background: rgba(168, 230, 207, 0.15);
+    color: var(--pastel-green);
+    border: 1px solid rgba(168, 230, 207, 0.2);
 }
 
 .auth-form {
@@ -277,15 +279,16 @@ body {
 
 .auth-form h1 {
     font-family: var(--font-heading);
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    font-weight: 500;
     margin-bottom: 4px;
 }
 
 .auth-form span {
     font-size: 0.8rem;
-    color: #a7f3d0;
-    opacity: 0.8;
+    color: var(--text-secondary);
     margin-bottom: 20px;
+    font-weight: 300;
 }
 
 .auth-form input {
@@ -294,42 +297,41 @@ body {
     border-radius: var(--radius-md);
     padding: 12px 16px;
     color: var(--text-primary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin-bottom: 14px;
     outline: none;
     transition: all 0.25s ease;
 }
 
 .auth-form input:focus {
-    border-color: #34d399;
-    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.2);
-    background: rgba(6, 78, 59, 0.4);
+    border-color: rgba(168, 230, 207, 0.4);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .auth-form input::placeholder {
-    color: rgba(167, 243, 208, 0.4);
+    color: rgba(163, 184, 173, 0.4);
 }
 
 .btn-submit {
-    background: var(--accent-gradient);
+    background: var(--pastel-green);
     border: none;
-    color: #ffffff;
+    color: #0d1511;
     padding: 12px;
     border-radius: var(--radius-md);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    transition: all 0.2s ease;
+    margin-top: 6px;
 }
 
 .btn-submit:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(52, 211, 153, 0.45);
+    background: #bbf0dc;
+    box-shadow: 0 4px 15px rgba(168, 230, 207, 0.2);
 }
 
 .btn-submit:active {
-    transform: translateY(0);
+    transform: scale(0.99);
 }
 
 /* ==========================================================================
