@@ -209,7 +209,7 @@ body {
 
 .bento-item:hover {
     background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(159, 232, 56, 0.4);
+    border-color: rgba(82, 243, 13, 0.726);
 }
 
 .bento-item.wide {
@@ -244,7 +244,7 @@ body {
    7. AUTHENTICATION PANEL & TABS
    ========================================================================== */
 .auth-panel {
-    background: rgba(10, 15, 26, 0.5);
+    background: rgba(10, 26, 10, 0.5);
     border: 1px solid var(--card-border);
     border-radius: var(--radius-lg);
     padding: 30px;
@@ -276,7 +276,7 @@ body {
 .tabs button.active {
     background: var(--accent-blue);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(115, 246, 59, 0.3);
+    box-shadow: 0 4px 12px rgba(59, 246, 68, 0.344);
 }
 
 /* ==========================================================================
@@ -339,7 +339,7 @@ body {
 
 .btn-submit:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(85, 247, 188, 0.4);
+    box-shadow: 0 6px 20px rgba(85, 247, 155, 0.4);
 }
 
 .btn-submit:active {
