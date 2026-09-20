@@ -1,0 +1,470 @@
+/* ==========================================================================
+   1. VARIABLES & RESET
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg-dark: #121620;
+    --panel-bg: #1a202c;
+    --card-bg: #222a3a;
+    --card-border: rgba(255, 255, 255, 0.08);
+    
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    
+    --lime-primary: #8ac919;
+    --lime-hover: #7bb514;
+    --lime-light: rgba(138, 201, 25, 0.15);
+    
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+}
+
+/* ==========================================================================
+   2. SIDEBAR NAVIGATION
+   ========================================================================== */
+.sidebar {
+    width: 240px;
+    background: var(--panel-bg);
+    border-right: 1px solid var(--card-border);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    color: var(--text-primary);
+    margin-bottom: 40px;
+}
+
+.brand .dot {
+    width: 10px;
+    height: 10px;
+    background: var(--lime-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--lime-primary);
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: var(--lime-light);
+    color: var(--lime-primary);
+}
+
+.logout-btn {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 10px 16px;
+    transition: color 0.2s ease;
+}
+
+.logout-btn:hover {
+    color: #ef4444;
+}
+
+/* ==========================================================================
+   3. MAIN WRAPPER & HEADER
+   ========================================================================== */
+.main-wrapper {
+    flex-grow: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.user-text h1 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+}
+
+.user-text p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--lime-primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--lime-hover);
+}
+
+.btn-secondary {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   4. DASHBOARD LAYOUT GRID
+   ========================================================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+}
+
+.content-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.content-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card {
+    background: var(--panel-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px;
+}
+
+/* Metrics Row */
+.metrics-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.metric-title {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.icon-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.icon-badge.green {
+    background: var(--lime-light);
+    color: var(--lime-primary);
+}
+
+.metric-value {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.metric-value.small {
+    font-size: 1.3rem;
+}
+
+.progress-bar-wrap {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--lime-primary);
+}
+
+.metric-sub, .metric-detail {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.status-badge {
+    background: var(--lime-light);
+    color: var(--lime-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+/* Timeline */
+.card-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border-left: 4px solid var(--text-secondary);
+}
+
+.timeline-item.done {
+    opacity: 0.6;
+    border-left-color: #4b5563;
+}
+
+.timeline-item.active {
+    border-left-color: var(--lime-primary);
+}
+
+.time {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    width: 70px;
+}
+
+.timeline-content strong {
+    display: block;
+    font-size: 0.9rem;
+}
+
+.timeline-content span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Bento Shortcuts */
+.bento-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.bento-card {
+    background: var(--card-bg);
+}
+
+.bento-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.bento-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--lime-primary);
+    font-weight: 700;
+}
+
+.bento-card h4 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.bento-card p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: var(--lime-primary);
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+/* Widgets */
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.widget-header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+}
+
+.counter-badge {
+    background: var(--lime-primary);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-list, .expense-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--card-bg);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.task-item input {
+    accent-color: var(--lime-primary);
+    margin-top: 3px;
+}
+
+.task-item label strong {
+    display: block;
+    font-size: 0.85rem;
+}
+
+.task-item label span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.expense-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card-bg);
+    padding: 10px 12px;
+    border-radius: 12px;
+}
+
+.expense-icon {
+    font-size: 1.2rem;
+}
+
+.expense-info {
+    flex-grow: 1;
+}
+
+.expense-info strong {
+    display: block;
+    font-size: 0.85rem;
+}
+
+.expense-info span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.expense-amount {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ef4444;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -2,31 +2,221 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>StudySync - Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySync Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-    <header>
-        <h1>StudySync Dashboard</h1>
-        <p>Welcome back, <strong>{{ current_user.username }}</strong>! | <a href="{{ url_for('logout') }}">Logout</a></p>
-    </header>
 
-    <hr>
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="dot"></span>
+            <h2>StudySync</h2>
+        </div>
 
-    <main>
-        <h3>Overview</h3>
-        <ul>
-            <li><strong>Remaining Budget:</strong> ₱{{ "%.2f"|format(remaining_budget) }}</li>
-            <li><strong>Pending Tasks:</strong> {{ pending_tasks }} task(s) remaining</li>
-        </ul>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active">
+                <div class="nav-icon">📊</div>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="nav-icon">💳</div>
+                <span>Budget</span>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="nav-icon">📋</div>
+                <span>Tasks</span>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="nav-icon">📝</div>
+                <span>Notes</span>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="nav-icon">📅</div>
+                <span>Schedule</span>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="nav-icon">🎴</div>
+                <span>Flashcards</span>
+            </a>
+        </nav>
 
-        <h3>Quick Navigation</h3>
-        <ul>
-            <li><a href="/budget">Budget Tracker</a></li>
-            <li><a href="/tasks">To-Do List</a></li>
-            <li><a href="/schedule">Class Schedule</a></li>
-            <li><a href="/notes">Notes</a></li>
-            <li><a href="/flashcards">Flashcards</a></li>
-        </ul>
-    </main>
+        <a href="#" class="logout-btn">
+            <span>Log Out</span>
+        </a>
+    </aside>
+
+    <!-- MAIN CONTAINER -->
+    <div class="main-wrapper">
+        
+        <!-- HEADER -->
+        <header class="top-header">
+            <div class="user-profile">
+                <div class="avatar">🐱</div>
+                <div class="user-text">
+                    <h1>Welcome back, Pyon 👋</h1>
+                    <p>Here is what is on your radar today.</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn btn-secondary">+ Add Expense</button>
+                <button class="btn btn-primary">+ New Task</button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD GRID -->
+        <main class="dashboard-grid">
+            
+            <!-- LEFT MAIN CONTENT -->
+            <section class="content-left">
+                
+                <!-- TOP METRIC CARDS -->
+                <div class="metrics-row">
+                    <div class="card metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Remaining Budget</span>
+                            <div class="icon-badge green">₱</div>
+                        </div>
+                        <div class="metric-value">₱1,250.00</div>
+                        <div class="progress-bar-wrap">
+                            <div class="progress-bar" style="width: 62.5%;"></div>
+                        </div>
+                        <span class="metric-sub">62% of weekly limit left</span>
+                    </div>
+
+                    <div class="card metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Next Class</span>
+                            <span class="status-badge">In 45 mins</span>
+                        </div>
+                        <div class="metric-value small">5:30 PM | Calculus</div>
+                        <p class="metric-detail">Room 318 • Prof. Santos</p>
+                    </div>
+                </div>
+
+                <!-- TODAY'S SCHEDULE TIMELINE -->
+                <div class="card section-card">
+                    <h3 class="card-title">Today's Classes</h3>
+                    <div class="timeline">
+                        <div class="timeline-item done">
+                            <div class="time">09:00 AM</div>
+                            <div class="timeline-content">
+                                <strong>Physics II</strong>
+                                <span>Lab 102 • Completed</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item active">
+                            <div class="time">05:30 PM</div>
+                            <div class="timeline-content">
+                                <strong>Calculus II</strong>
+                                <span>Room 318 • Next Up</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time">07:00 PM</div>
+                            <div class="timeline-content">
+                                <strong>Computer Science</strong>
+                                <span>Online / Zoom</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BENTO SHORTCUTS -->
+                <div class="bento-row">
+                    <div class="card bento-card">
+                        <div class="bento-header">
+                            <span class="bento-tag">Active Deck</span>
+                            <span>🎴</span>
+                        </div>
+                        <h4>Calculus Chapter 4</h4>
+                        <p>24 Flashcards left to review</p>
+                        <button class="link-btn">Study Now &rarr;</button>
+                    </div>
+
+                    <div class="card bento-card">
+                        <div class="bento-header">
+                            <span class="bento-tag">Recent Note</span>
+                            <span>📝</span>
+                        </div>
+                        <h4>Physics Lecture 3</h4>
+                        <p>Updated 2 hours ago</p>
+                        <button class="link-btn">Open Note &rarr;</button>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- RIGHT SIDEBAR PANEL -->
+            <aside class="content-right">
+                
+                <!-- PENDING TASKS WIDGET -->
+                <div class="card side-widget">
+                    <div class="widget-header">
+                        <h3>Pending Tasks</h3>
+                        <span class="counter-badge">3</span>
+                    </div>
+                    
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <input type="checkbox" id="task1">
+                            <label for="task1">
+                                <strong>Submit Physics Lab Report</strong>
+                                <span>Due Today • 11:59 PM</span>
+                            </label>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" id="task2">
+                            <label for="task2">
+                                <strong>Read Calculus Chapter 5</strong>
+                                <span>Due Tomorrow</span>
+                            </label>
+                        </li>
+                        <li class="task-item">
+                            <input type="checkbox" id="task3">
+                            <label for="task3">
+                                <strong>Review CS Assignment 2</strong>
+                                <span>Sept. 22</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- ACTIVITY LOG -->
+                <div class="card side-widget">
+                    <div class="widget-header">
+                        <h3>Recent Expenses</h3>
+                    </div>
+                    
+                    <ul class="expense-list">
+                        <li class="expense-item">
+                            <div class="expense-icon">🍔</div>
+                            <div class="expense-info">
+                                <strong>Lunch at Cafeteria</strong>
+                                <span>Today</span>
+                            </div>
+                            <span class="expense-amount">-₱120.00</span>
+                        </li>
+                        <li class="expense-item">
+                            <div class="expense-icon">📚</div>
+                            <div class="expense-info">
+                                <strong>Photocopying Notes</strong>
+                                <span>Yesterday</span>
+                            </div>
+                            <span class="expense-amount">-₱45.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </aside>
+
+        </main>
+    </div>
+
 </body>
 </html>
