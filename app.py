@@ -37,13 +37,20 @@ class User(UserMixin):
 def load_user(user_id):
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
-    user = cursor.fetchone()
-    cursor.close()
-    db.close()
-    if user:
-        return User(user["id"], user["username"], user["email"], bool(user.get("is_verified", 1)))
-    return None
+    try:
+        cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+        user = cursor.fetchone()
+        if user:
+            return User(
+                user["id"], 
+                user["username"], 
+                user["email"], 
+                bool(user.get("is_verified", False))
+            )
+        return None
+    finally:
+        cursor.close()
+        db.close()
 
 # --- EMAIL VERIFICATION HELPERS (BREVO API) ---
 
@@ -68,12 +75,8 @@ def send_confirmation_email(user_email):
         '''
     )
 
-    try:
-        api_instance.send_transac_email(send_smtp_email)
-        return True
-    except ApiException as e:
-        print(f"Brevo API Error: {e}")
-        raise e
+    api_instance.send_transac_email(send_smtp_email)
+    return True
 
 # --- GENERAL ROUTES ---
 
@@ -133,8 +136,9 @@ def register():
         try:
             send_confirmation_email(email)
             flash("Account created! Check your email to confirm your address before logging in.", "success")
-        except Exception:
-            flash("Account created, but confirmation email failed to send. Please contact support.", "warning")
+        except (ApiException, Exception) as e:
+            print(f"Brevo API Error during registration: {e}")
+            flash("Account created, but confirmation email failed to send. Please use the resend page or contact support.", "warning")
 
         return redirect(url_for("login"))
 
@@ -153,26 +157,26 @@ def confirm_email(token):
 
     db = get_db()
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
-    user = cursor.fetchone()
+    try:
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        user = cursor.fetchone()
 
-    if not user:
+        if not user:
+            flash("No account found for that link.", "danger")
+            return redirect(url_for("login"))
+
+        if user["is_verified"]:
+            flash("Account already verified. Please log in.", "success")
+        else:
+            update_cursor = db.cursor()
+            update_cursor.execute("UPDATE users SET is_verified = %s WHERE id = %s", (True, user["id"]))
+            db.commit()
+            update_cursor.close()
+            flash("Email confirmed! You can now log in.", "success")
+    finally:
         cursor.close()
         db.close()
-        flash("No account found for that link.", "danger")
-        return redirect(url_for("login"))
 
-    if user["is_verified"]:
-        flash("Account already verified. Please log in.", "success")
-    else:
-        update_cursor = db.cursor()
-        update_cursor.execute("UPDATE users SET is_verified = %s WHERE id = %s", (True, user["id"]))
-        db.commit()
-        update_cursor.close()
-        flash("Email confirmed! You can now log in.", "success")
-
-    cursor.close()
-    db.close()
     return redirect(url_for("login"))
 
 @app.route("/resend-confirmation", methods=["GET", "POST"])
@@ -182,16 +186,18 @@ def resend_confirmation():
 
         db = get_db()
         cursor = db.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
-        user = cursor.fetchone()
-        cursor.close()
-        db.close()
+        try:
+            cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+            user = cursor.fetchone()
+        finally:
+            cursor.close()
+            db.close()
 
         if user and not user["is_verified"]:
             try:
                 send_confirmation_email(email)
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"Failed to resend email: {e}")
 
         flash("If that account exists and isn't verified yet, a new confirmation email has been sent.", "info")
         return redirect(url_for("login"))
@@ -215,10 +221,12 @@ def login():
         # 2. Look up user by email or username
         db = get_db()
         cursor = db.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM users WHERE email = %s OR username = %s", (email, email))
-        user_data = cursor.fetchone()
-        cursor.close()
-        db.close()
+        try:
+            cursor.execute("SELECT * FROM users WHERE email = %s OR username = %s", (email, email))
+            user_data = cursor.fetchone()
+        finally:
+            cursor.close()
+            db.close()
 
         # 3. Verify user existence & password matching
         if not user_data or not check_password_hash(user_data["password_hash"], password):
@@ -273,9 +281,9 @@ def dashboard():
             remaining_budget = allowance["amount"] - total_expenses
     except mysql.connector.Error:
         remaining_budget = 0.0
-
-    cursor.close()
-    db.close()
+    finally:
+        cursor.close()
+        db.close()
 
     return render_template("dashboard.html", pending_tasks=pending_tasks, remaining_budget=remaining_budget)
 
