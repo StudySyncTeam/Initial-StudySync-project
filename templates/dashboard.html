@@ -53,21 +53,21 @@
     <!-- MAIN CONTAINER -->
     <div class="main-wrapper">
         
-        <!-- HEADER -->
-        <header class="top-header">
-            <div class="user-profile">
-                <div class="avatar">🐱</div>
-                <div class="user-text">
-                    <h1>Welcome back, Pyon 👋</h1>
-                    <p>Here is what is on your radar today.</p>
-                </div>
+    <!-- HEADER -->
+    <header class="top-header">
+        <div class="user-profile">
+            <div class="avatar">🐱</div>
+            <div class="user-text">
+                <h1>Welcome back, {{ current_user.username }} 👋</h1>
+                <p>Here is what is on your radar today.</p>
             </div>
-
-            <div class="header-actions">
-                <button class="btn btn-secondary">+ Add Expense</button>
-                <button class="btn btn-primary">+ New Task</button>
-            </div>
-        </header>
+     </div>
+    
+        <div class="header-actions">
+            <button class="btn btn-secondary">+ Add Expense</button>
+            <button class="btn btn-primary">+ New Task</button>
+        </div>
+    </header>
 
         <!-- DASHBOARD GRID -->
         <main class="dashboard-grid">
