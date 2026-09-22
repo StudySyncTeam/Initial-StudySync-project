@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StudySync Hub</title>
-  <link rel="stylesheet" href="dashboard-style.css">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 </head>
 <body>
 
@@ -42,7 +43,7 @@
         <span>Flashcards</span>
       </div>
     </div>
-    <button class="back-footer-btn" onclick="window.location.href='index.html'">Log Out</button>
+    <button class="back-footer-btn" onclick="window.location.href='{{ url_for('logout') }}'">Log Out</button>
   </aside>
 
 
@@ -202,6 +203,6 @@
 
   </div>
 
-  <script src="dashboard-app.js"></script>
+  <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 </html>
