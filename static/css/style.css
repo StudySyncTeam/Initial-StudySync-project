@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
+
 /* ==========================================================================
    1. RESET & DESIGN SYSTEM VARIABLES
    ========================================================================== */
@@ -16,23 +18,23 @@
     --card-border: rgba(255, 255, 255, 0.08);
     --text-primary: #ffffff;
     --text-secondary: #e0e0e0;
-    
+
     /* Vibrant Lime Green Theme */
     --lime-primary: #8ac919;
     --lime-hover: #7bb514;
     --accent-blue: var(--lime-primary);
     --accent-gradient: linear-gradient(135deg, #8ac919 0%, #75ae13 100%);
-    
+
     /* Form & Input Variables */
     --input-bg: #ececec;
     --input-border: transparent;
     --input-text: #333333;
-    
+
     /* Border Radius System */
     --radius-lg: 24px;
     --radius-md: 12px;
     --radius-sm: 8px;
-    
+
     /* Typography */
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
@@ -107,8 +109,8 @@ body {
     height: 100%;
     pointer-events: none;
     background: radial-gradient(
-        600px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-        rgba(255, 255, 255, 0.04), 
+        600px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 255, 255, 0.04),
         transparent 80%
     );
     z-index: 1;
@@ -217,7 +219,7 @@ body {
 .bento-item:hover {
     background: rgba(255, 255, 255, 0.25);
     border-color: #ffffff;
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2); 
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
 }
 
 .bento-item.wide {
@@ -368,7 +370,7 @@ body {
     .stage {
         grid-template-columns: 1fr;
     }
-    
+
     .showcase {
         padding: 30px 25px;
     }
@@ -386,7 +388,7 @@ body {
     .bento {
         grid-template-columns: 1fr;
     }
-    
+
     .bento-item.wide {
         grid-column: span 1;
     }

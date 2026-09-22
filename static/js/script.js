@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Container & Button Controls
+
+    // Container & Button Controls (kept for compatibility with a
+    // sliding-panel layout, if one is ever added back)
     const container = document.getElementById('container');
     const registerBtn = document.getElementById('register');
     const loginBtn = document.getElementById('login');
@@ -9,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
             container.classList.add("active");
         });
     }
-
     if (loginBtn && container) {
         loginBtn.addEventListener('click', () => {
             container.classList.remove("active");
@@ -40,24 +41,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 3D Tilt Effect on Hover
     const cards = document.querySelectorAll('.tilt-card, .bento-item');
-
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-
             const rotateX = ((y - centerY) / centerY) * -12;
             const rotateY = ((x - centerX) / centerX) * 12;
-
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(8px)`;
         });
-
         card.addEventListener('mouseleave', () => {
             card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
         });
+    });
+
+    // Prevent actual form submission since there's no backend wired up yet
+    [formSignin, formSignup].forEach(form => {
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+            });
+        }
     });
 });

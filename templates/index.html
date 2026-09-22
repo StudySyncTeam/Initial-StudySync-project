@@ -1,205 +1,99 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudySync Hub — Sign In</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-}
+  <div id="particles"></div>
+  <div class="bg-blob blob1"></div>
+  <div class="bg-blob blob2"></div>
+  <div class="bg-blob blob3"></div>
+  <div class="spotlight"></div>
 
-body{
-    background-color: rgba(0, 0, 0, 0.795);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 100vh;
-}
+  <div class="stage-wrap">
+    <div class="stage">
 
-.container{
-    background-color: rgba(255, 255, 255, 0.35);
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.35);
-    position: relative;
-    overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
-}
+      <!-- Left: showcase / feature panel -->
+      <section class="showcase">
+        <div class="brand"><span class="dot"></span>STUDYSYNC HUB</div>
+        <h1>Stay on top of<br>your semester.</h1>
+        <p class="lede">Track your budget, tasks, notes, and schedule in one place, built for students who juggle it all.</p>
 
-.container p{
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    margin: 20px 0;
-}
+        <div class="bento">
+          <div class="tilt-card bento-item">
+            <div class="ic">
+              <svg viewBox="0 0 24 24"><path d="M5 19h-2v-6h2v6zm5 0h-2v-10h2v10zm5 0h-2v-14h2v14zm5 0h-2v-9h2v9z"/></svg>
+            </div>
+            <div class="t">Budget Tracker</div>
+            <div class="d">Log expenses and watch your balance</div>
+          </div>
 
-.container span{
-    font-size: 12px;
-}
+          <div class="tilt-card bento-item">
+            <div class="ic">
+              <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm5 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            </div>
+            <div class="t">Task Manager</div>
+            <div class="d">Never miss a deadline again</div>
+          </div>
 
-.container a{
-    color: #fff8f8;
-    font-size: 13px;
-    text-decoration: none;
-    margin: 15px 0 10px;
-}
+          <div class="tilt-card bento-item">
+            <div class="ic">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            </div>
+            <div class="t">Smart Notes</div>
+            <div class="d">Tag and search everything fast</div>
+          </div>
 
-.container button{
-    background-color: rgba(140, 204, 20, 0.952);
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-top: 10px;
-    cursor: pointer;
-}
+          <div class="tilt-card bento-item">
+            <div class="ic">
+              <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+            </div>
+            <div class="t">Class Schedule</div>
+            <div class="d">See your whole week at a glance</div>
+          </div>
 
-.container button.hidden{
-    background-color: transparent;
-    border-color: #fff;
-}
+          <div class="tilt-card bento-item wide">
+            <div class="ic">
+              <svg viewBox="0 0 24 24"><path d="M2 4v16h2V4H2zm18 0H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H6V6h14v12z"/></svg>
+            </div>
+            <div class="t">Flashcards</div>
+            <div class="d">Organize every subject into quick-review decks</div>
+          </div>
+        </div>
+      </section>
 
-.container form{
-    background-color: #6d6b6b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 40px;
-    height: 100%;
-}
+      <!-- Right: auth panel -->
+      <section class="auth-panel">
+        <div class="tabs">
+          <button type="button" id="tab-signin" class="active">Sign In</button>
+          <button type="button" id="tab-signup">Sign Up</button>
+        </div>
 
-.container input{
-    background-color: #eee;
-    border:none;
-    margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
-}
+        <form id="form-signin" class="auth-form active">
+          <h1>Welcome back</h1>
+          <span>Sign in to continue where you left off</span>
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Password" required>
+          <button type="submit" class="btn-submit">Sign In</button>
+        </form>
 
-.form-container{
-    position: absolute;
-    top: 0;
-    height: 100%;
-    transition: all 0.6s ease-in-out;
-}
+        <form id="form-signup" class="auth-form">
+          <h1>Create account</h1>
+          <span>Start organizing your semester today</span>
+          <input type="text" placeholder="Full Name" required>
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Password" required>
+          <button type="submit" class="btn-submit">Sign Up</button>
+        </form>
+      </section>
 
-.sign-in{
-    left: 0;
-    width: 50%;
-    z-index: 2;
-}
+    </div>
+  </div>
 
-.container.active .sign-in{
-    transform: translateX(100%);
-}
-
-.sign-up{
-    left: 0;
-    width: 50%;
-    opacity: 0;
-    z-index: 1;
-}
-
-.container.active .sign-up{
-    transform: translateX(100%);
-    opacity: 1;
-    z-index: 5;
-    animation: move 0.6s;
-}
-
-@keyframes move{
-    0%, 49.99%{
-        opacity: 0;
-        z-index: 1;
-    }
-    50%, 100%{
-        opacity: 1;
-        z-index: 5;
-    }
-}
-
-.social-icons{
-    margin: 20px 0;
-}
-
-.social-icons a{
-    border: 1px solid rgba(140, 204, 20, 0.952);
-    border-radius: 20%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 3px;
-    width: 40px;
-    height: 40px;
-}
-
-.toggle-container{
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    transition: all 0.6s ease-in-out;
-    border-radius: 20px;
-    z-index: 1000;
-}
-
-.container.active .toggle-container{
-    transform: translateX(-100%);
-    border-radius: 20px;
-}
-
-.toggle{
-    background-color: rgba(140, 204, 20, 0.952);
-    height: 100%;
-    color: #fff;
-    position: relative;
-    left: -100%;
-    height: 100%;
-    width: 200%;
-    transform: translateX(0);
-    transition: all 0.6s ease-in-out;
-}
-
-.container.active .toggle{
-    transform: translateX(50%);
-}
-
-.toggle-panel{
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 30px;
-    text-align: center;
-    top: 0;
-    transform: translateX(0);
-    transition: all 0.6s ease-in-out;
-}
-
-.toggle-left{
-    transform: translateX(-200%);
-}
-
-.container.active .toggle-left{
-    transform: translateX(0);
-}
-
-.toggle-right{
-    right: 0;
-    transform: translateX(0);
-}
-
+  <script src="app.js"></script>
+</body>
+</html>
