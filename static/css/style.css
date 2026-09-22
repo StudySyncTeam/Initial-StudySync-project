@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
 
+Style · CSS
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
+ 
 /* ==========================================================================
    1. RESET & DESIGN SYSTEM VARIABLES
    ========================================================================== */
@@ -10,7 +12,7 @@
     margin: 0;
     padding: 0;
 }
-
+ 
 :root {
     /* Color Palette matched to screenshot */
     --bg-dark: #222222;
@@ -18,28 +20,28 @@
     --card-border: rgba(255, 255, 255, 0.08);
     --text-primary: #ffffff;
     --text-secondary: #e0e0e0;
-
+ 
     /* Vibrant Lime Green Theme */
     --lime-primary: #8ac919;
     --lime-hover: #7bb514;
     --accent-blue: var(--lime-primary);
     --accent-gradient: linear-gradient(135deg, #8ac919 0%, #75ae13 100%);
-
+ 
     /* Form & Input Variables */
     --input-bg: #ececec;
     --input-border: transparent;
     --input-text: #333333;
-
+ 
     /* Border Radius System */
     --radius-lg: 24px;
     --radius-md: 12px;
     --radius-sm: 8px;
-
+ 
     /* Typography */
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
 }
-
+ 
 /* ==========================================================================
    2. GLOBAL BASE STYLES
    ========================================================================== */
@@ -54,7 +56,7 @@ body {
     overflow-x: hidden;
     position: relative;
 }
-
+ 
 /* ==========================================================================
    3. BACKGROUND EFFECTS
    ========================================================================== */
@@ -67,7 +69,7 @@ body {
     pointer-events: none;
     z-index: 0;
 }
-
+ 
 .bg-blob {
     position: fixed;
     border-radius: 50%;
@@ -76,7 +78,7 @@ body {
     pointer-events: none;
     z-index: 0;
 }
-
+ 
 .blob1 {
     width: 400px;
     height: 400px;
@@ -84,7 +86,7 @@ body {
     top: -100px;
     left: -100px;
 }
-
+ 
 .blob2 {
     width: 450px;
     height: 450px;
@@ -92,7 +94,7 @@ body {
     bottom: -150px;
     right: -100px;
 }
-
+ 
 .blob3 {
     width: 300px;
     height: 300px;
@@ -100,7 +102,7 @@ body {
     top: 40%;
     left: 35%;
 }
-
+ 
 .spotlight {
     position: fixed;
     top: 0;
@@ -115,7 +117,7 @@ body {
     );
     z-index: 1;
 }
-
+ 
 /* ==========================================================================
    4. LAYOUT & CONTAINER STRUCTURE
    ========================================================================== */
@@ -126,7 +128,7 @@ body {
     position: relative;
     z-index: 2;
 }
-
+ 
 .stage {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
@@ -136,7 +138,7 @@ body {
     overflow: hidden;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
 }
-
+ 
 /* ==========================================================================
    5. SHOWCASE SECTION (Vibrant Lime Side Panel)
    ========================================================================== */
@@ -150,7 +152,7 @@ body {
     text-align: center;
     color: #ffffff;
 }
-
+ 
 .brand {
     font-family: var(--font-heading);
     font-weight: 700;
@@ -162,7 +164,7 @@ body {
     gap: 8px;
     margin-bottom: 20px;
 }
-
+ 
 .brand .dot {
     width: 8px;
     height: 8px;
@@ -170,7 +172,7 @@ body {
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
-
+ 
 .showcase h1 {
     font-family: var(--font-heading);
     font-size: 2.5rem;
@@ -179,13 +181,13 @@ body {
     font-weight: 700;
     color: #ffffff;
 }
-
+ 
 .showcase h1 .grad {
     color: #ffffff;
     background: none;
     -webkit-text-fill-color: initial;
 }
-
+ 
 .lede {
     color: rgba(255, 255, 255, 0.9);
     font-size: 0.95rem;
@@ -193,7 +195,7 @@ body {
     margin-bottom: 30px;
     max-width: 380px;
 }
-
+ 
 /* ==========================================================================
    6. BENTO GRID COMPONENTS
    ========================================================================== */
@@ -204,7 +206,7 @@ body {
     perspective: 1000px;
     width: 100%;
 }
-
+ 
 .bento-item {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -215,43 +217,43 @@ body {
     backface-visibility: hidden;
     transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
-
+ 
 .bento-item:hover {
     background: rgba(255, 255, 255, 0.25);
     border-color: #ffffff;
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
 }
-
+ 
 .bento-item.wide {
     grid-column: span 2;
 }
-
+ 
 .bento-item .ic {
     width: 32px;
     height: 32px;
     margin-bottom: 8px;
     color: #ffffff;
 }
-
+ 
 .bento-item .ic svg {
     width: 100%;
     height: 100%;
     fill: currentColor;
 }
-
+ 
 .bento-item .t {
     font-weight: 600;
     font-size: 0.85rem;
     margin-bottom: 2px;
     color: #ffffff;
 }
-
+ 
 .bento-item .d {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.85);
     line-height: 1.3;
 }
-
+ 
 /* ==========================================================================
    7. AUTHENTICATION PANEL & TABS
    ========================================================================== */
@@ -262,7 +264,7 @@ body {
     flex-direction: column;
     justify-content: center;
 }
-
+ 
 .tabs {
     display: flex;
     background: rgba(0, 0, 0, 0.2);
@@ -270,7 +272,7 @@ body {
     border-radius: var(--radius-md);
     margin-bottom: 25px;
 }
-
+ 
 .tabs button {
     flex: 1;
     background: none;
@@ -283,13 +285,13 @@ body {
     border-radius: var(--radius-sm);
     transition: all 0.3s ease;
 }
-
+ 
 .tabs button.active {
     background: var(--lime-primary);
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(138, 201, 25, 0.35);
 }
-
+ 
 /* ==========================================================================
    8. AUTHENTICATION FORMS & INPUTS
    ========================================================================== */
@@ -297,11 +299,11 @@ body {
     display: none;
     flex-direction: column;
 }
-
+ 
 .auth-form.active {
     display: flex;
 }
-
+ 
 .auth-form h1 {
     font-family: var(--font-heading);
     font-size: 1.8rem;
@@ -309,13 +311,13 @@ body {
     color: #ffffff;
     font-weight: 700;
 }
-
+ 
 .auth-form span {
     font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 20px;
 }
-
+ 
 .auth-form input {
     background: var(--input-bg);
     border: var(--input-border);
@@ -327,16 +329,16 @@ body {
     outline: none;
     transition: all 0.25s ease;
 }
-
+ 
 .auth-form input:focus {
     background: #ffffff;
     box-shadow: 0 0 0 3px rgba(138, 201, 25, 0.4);
 }
-
+ 
 .auth-form input::placeholder {
     color: #888888;
 }
-
+ 
 .btn-submit {
     background: var(--lime-primary);
     border: none;
@@ -352,17 +354,17 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
+ 
 .btn-submit:hover {
     background: var(--lime-hover);
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(138, 201, 25, 0.45);
 }
-
+ 
 .btn-submit:active {
     transform: translateY(0);
 }
-
+ 
 /* ==========================================================================
    9. RESPONSIVE BREAKPOINTS
    ========================================================================== */
@@ -370,25 +372,25 @@ body {
     .stage {
         grid-template-columns: 1fr;
     }
-
+ 
     .showcase {
         padding: 30px 25px;
     }
-
+ 
     .auth-panel {
         padding: 30px 25px;
     }
-
+ 
     .showcase h1 {
         font-size: 2rem;
     }
 }
-
+ 
 @media (max-width: 480px) {
     .bento {
         grid-template-columns: 1fr;
     }
-
+ 
     .bento-item.wide {
         grid-column: span 1;
     }

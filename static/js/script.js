@@ -1,11 +1,12 @@
-document.addEventListener("DOMContentLoaded", () => {
 
+document.addEventListener("DOMContentLoaded", () => {
+ 
     // Container & Button Controls (kept for compatibility with a
     // sliding-panel layout, if one is ever added back)
     const container = document.getElementById('container');
     const registerBtn = document.getElementById('register');
     const loginBtn = document.getElementById('login');
-
+ 
     if (registerBtn && container) {
         registerBtn.addEventListener('click', () => {
             container.classList.add("active");
@@ -16,13 +17,13 @@ document.addEventListener("DOMContentLoaded", () => {
             container.classList.remove("active");
         });
     }
-
+ 
     // Tab Switching Logic
     const tabSignin = document.getElementById('tab-signin');
     const tabSignup = document.getElementById('tab-signup');
     const formSignin = document.getElementById('form-signin');
     const formSignup = document.getElementById('form-signup');
-
+ 
     if (tabSignin && tabSignup) {
         tabSignin.addEventListener('click', () => {
             tabSignin.classList.add('active');
@@ -30,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (formSignin) formSignin.classList.add('active');
             if (formSignup) formSignup.classList.remove('active');
         });
-
+ 
         tabSignup.addEventListener('click', () => {
             tabSignup.classList.add('active');
             tabSignin.classList.remove('active');
@@ -38,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (formSignin) formSignin.classList.remove('active');
         });
     }
-
+ 
     // 3D Tilt Effect on Hover
     const cards = document.querySelectorAll('.tilt-card, .bento-item');
     cards.forEach(card => {
@@ -56,13 +57,16 @@ document.addEventListener("DOMContentLoaded", () => {
             card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
         });
     });
-
-    // Prevent actual form submission since there's no backend wired up yet
+ 
+    // No backend yet — once the required fields are filled in (native
+    // HTML5 validation handles that), go straight to the dashboard.
     [formSignin, formSignup].forEach(form => {
         if (form) {
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
+                window.location.href = 'dashboard.html';
             });
         }
     });
 });
+ 
