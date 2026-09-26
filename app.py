@@ -287,5 +287,424 @@ def dashboard():
 
     return render_template("dashboard.html", pending_tasks=pending_tasks, remaining_budget=remaining_budget)
 
+
+# --- TASKS ROUTES ---
+
+@app.route("/tasks", methods=["GET", "POST"])
+@login_required
+def tasks():
+    db = get_db()
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        description = request.form.get("description", "").strip()
+        due_date = request.form.get("due_date") or None
+        priority = request.form.get("priority", "Medium")
+
+        if not title:
+            flash("Task title is required.", "danger")
+        else:
+            cursor = db.cursor()
+            cursor.execute(
+                "INSERT INTO tasks (user_id, title, description, due_date, priority) VALUES (%s, %s, %s, %s, %s)",
+                (current_user.id, title, description, due_date, priority)
+            )
+            db.commit()
+            cursor.close()
+            flash("Task added!", "success")
+
+        db.close()
+        return redirect(url_for("tasks"))
+
+    # GET request: just show the tasks
+    cursor = db.cursor(dictionary=True)
+    cursor.execute(
+        "SELECT * FROM tasks WHERE user_id = %s ORDER BY due_date ASC",
+        (current_user.id,)
+    )
+    all_tasks = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return render_template("tasks.html", tasks=all_tasks)
+
+
+@app.route("/tasks/<int:task_id>/complete", methods=["POST"])
+@login_required
+def complete_task(task_id):
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM tasks WHERE id = %s AND user_id = %s", (task_id, current_user.id))
+    task = cursor.fetchone()
+
+    if task:
+        new_status = not task["completed"]
+        update_cursor = db.cursor()
+        update_cursor.execute("UPDATE tasks SET completed = %s WHERE id = %s", (new_status, task_id))
+        db.commit()
+        update_cursor.close()
+
+    cursor.close()
+    db.close()
+    return redirect(url_for("tasks"))
+
+
+@app.route("/tasks/<int:task_id>/delete", methods=["POST"])
+@login_required
+def delete_task(task_id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM tasks WHERE id = %s AND user_id = %s", (task_id, current_user.id))
+    db.commit()
+    cursor.close()
+    db.close()
+    return redirect(url_for("tasks"))
+
+# --- BUDGET ROUTES ---
+
+@app.route("/budget", methods=["GET", "POST"])
+@login_required
+def budget():
+    db = get_db()
+
+    if request.method == "POST":
+        form_type = request.form.get("form_type")
+
+        if form_type == "set_allowance":
+            amount = request.form.get("amount")
+            week_start = request.form.get("week_start")
+            cursor = db.cursor()
+            cursor.execute(
+                "INSERT INTO allowances (user_id, amount, week_start) VALUES (%s, %s, %s)",
+                (current_user.id, amount, week_start)
+            )
+            db.commit()
+            cursor.close()
+            flash("Allowance set!", "success")
+
+        elif form_type == "log_expense":
+            description = request.form.get("description", "").strip()
+            amount = request.form.get("amount")
+            expense_date = request.form.get("expense_date")
+            category = request.form.get("category", "Other")
+
+            cursor = db.cursor(dictionary=True)
+            cursor.execute(
+                "SELECT id FROM allowances WHERE user_id = %s ORDER BY created_at DESC LIMIT 1",
+                (current_user.id,)
+            )
+            latest_allowance = cursor.fetchone()
+            allowance_id = latest_allowance["id"] if latest_allowance else None
+            cursor.close()
+
+            cursor = db.cursor()
+            cursor.execute(
+                "INSERT INTO expenses (user_id, allowance_id, description, amount, expense_date, category) VALUES (%s, %s, %s, %s, %s, %s)",
+                (current_user.id, allowance_id, description, amount, expense_date, category)
+            )
+            db.commit()
+            cursor.close()
+            flash("Expense logged!", "success")
+
+        db.close()
+        return redirect(url_for("budget"))
+
+    cursor = db.cursor(dictionary=True)
+    cursor.execute(
+        "SELECT * FROM allowances WHERE user_id = %s ORDER BY created_at DESC LIMIT 1",
+        (current_user.id,)
+    )
+    allowance = cursor.fetchone()
+
+    expenses = []
+    remaining = 0
+    category_totals = {}
+    if allowance:
+        cursor.execute(
+            "SELECT * FROM expenses WHERE allowance_id = %s ORDER BY expense_date DESC",
+            (allowance["id"],)
+        )
+        expenses = cursor.fetchall()
+        total_spent = sum(e["amount"] for e in expenses)
+        remaining = allowance["amount"] - total_spent
+
+        for e in expenses:
+            cat = e.get("category") or "Other"
+            category_totals[cat] = category_totals.get(cat, 0) + e["amount"]
+
+    cursor.close()
+    db.close()
+    return render_template(
+        "budget.html",
+        allowance=allowance,
+        expenses=expenses,
+        remaining=remaining,
+        category_totals=category_totals
+    )
+
+# --- SCHEDULE ROUTES ---
+
+@app.route("/schedule", methods=["GET", "POST"])
+@login_required
+def schedule():
+    db = get_db()
+
+    if request.method == "POST":
+        form_type = request.form.get("form_type")
+        cursor = db.cursor()
+
+        if form_type == "add_subject":
+            name = request.form.get("name", "").strip()
+
+            if not name:
+                flash("Subject name is required.", "danger")
+            else:
+                cursor.execute(
+                    "INSERT INTO subjects (user_id, name) VALUES (%s, %s)",
+                    (current_user.id, name)
+                )
+                db.commit()
+                flash("Subject added!", "success")
+
+        elif form_type == "add_class":
+            subject_id = request.form.get("subject_id")
+            day = request.form.get("day")
+            start_time = request.form.get("start_time")
+            end_time = request.form.get("end_time")
+            room = request.form.get("room", "").strip()
+
+            if not subject_id or not day or not start_time or not end_time:
+                flash("Subject, day, start time, and end time are all required.", "danger")
+            else:
+                cursor.execute(
+                    "INSERT INTO class_schedules (user_id, subject_id, day, start_time, end_time, room) VALUES (%s, %s, %s, %s, %s, %s)",
+                    (current_user.id, subject_id, day, start_time, end_time, room)
+                )
+                db.commit()
+                flash("Class added!", "success")
+
+        cursor.close()
+        db.close()
+        return redirect(url_for("schedule"))
+
+    # GET: fetch subjects (for the dropdown) + full weekly schedule
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM subjects WHERE user_id = %s", (current_user.id,))
+    subjects = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT class_schedules.*, subjects.name AS subject_name
+        FROM class_schedules
+        JOIN subjects ON class_schedules.subject_id = subjects.id
+        WHERE class_schedules.user_id = %s
+        ORDER BY FIELD(day, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'), start_time
+    """, (current_user.id,))
+    classes = cursor.fetchall()
+
+    cursor.close()
+    db.close()
+    return render_template("schedule.html", subjects=subjects, classes=classes)
+
+
+@app.route("/schedule/<int:class_id>/delete", methods=["POST"])
+@login_required
+def delete_class(class_id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM class_schedules WHERE id = %s AND user_id = %s", (class_id, current_user.id))
+    db.commit()
+    cursor.close()
+    db.close()
+    return redirect(url_for("schedule"))
+
+
+# --- NOTES ROUTES ---
+
+@app.route("/notes", methods=["GET", "POST"])
+@login_required
+def notes():
+    db = get_db()
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        content = request.form.get("content", "").strip()
+
+        if not title:
+            flash("Note title is required.", "danger")
+        else:
+            cursor = db.cursor()
+            cursor.execute(
+                "INSERT INTO notes (user_id, title, content) VALUES (%s, %s, %s)",
+                (current_user.id, title, content)
+            )
+            db.commit()
+            cursor.close()
+            flash("Note saved!", "success")
+
+        db.close()
+        return redirect(url_for("notes"))
+
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM notes WHERE user_id = %s ORDER BY updated_at DESC", (current_user.id,))
+    all_notes = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return render_template("notes.html", notes=all_notes)
+
+
+@app.route("/notes/<int:note_id>/edit", methods=["POST"])
+@login_required
+def edit_note(note_id):
+    title = request.form.get("title", "").strip()
+    content = request.form.get("content", "").strip()
+
+    db = get_db()
+
+    if not title:
+        flash("Note title is required.", "danger")
+        db.close()
+        return redirect(url_for("notes"))
+
+    cursor = db.cursor()
+    cursor.execute(
+        "UPDATE notes SET title = %s, content = %s WHERE id = %s AND user_id = %s",
+        (title, content, note_id, current_user.id)
+    )
+    db.commit()
+    affected = cursor.rowcount
+    cursor.close()
+    db.close()
+
+    if affected == 0:
+        flash("Note not found or you don't have permission to edit it.", "danger")
+    else:
+        flash("Note updated!", "success")
+
+    return redirect(url_for("notes"))
+
+
+@app.route("/notes/<int:note_id>/delete", methods=["POST"])
+@login_required
+def delete_note(note_id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM notes WHERE id = %s AND user_id = %s", (note_id, current_user.id))
+    db.commit()
+    affected = cursor.rowcount
+    cursor.close()
+    db.close()
+
+    if affected == 0:
+        flash("Note not found or you don't have permission to delete it.", "danger")
+    else:
+        flash("Note deleted.", "success")
+
+    return redirect(url_for("notes"))
+
+# --- FLASHCARD ROUTES ---
+
+@app.route("/flashcards", methods=["GET", "POST"])
+@login_required
+def flashcards():
+    db = get_db()
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        subject = request.form.get("subject", "").strip()
+
+        if not title:
+            flash("Deck title is required.", "danger")
+        else:
+            cursor = db.cursor()
+            cursor.execute(
+                "INSERT INTO flashcard_decks (user_id, title, subject) VALUES (%s, %s, %s)",
+                (current_user.id, title, subject)
+            )
+            db.commit()
+            cursor.close()
+            flash("Deck created!", "success")
+
+        db.close()
+        return redirect(url_for("flashcards"))
+
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM flashcard_decks WHERE user_id = %s", (current_user.id,))
+    decks = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return render_template("flashcards.html", decks=decks)
+
+
+@app.route("/flashcards/<int:deck_id>", methods=["GET", "POST"])
+@login_required
+def deck_detail(deck_id):
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    # Always verify ownership first, before doing anything else
+    cursor.execute("SELECT * FROM flashcard_decks WHERE id = %s AND user_id = %s", (deck_id, current_user.id))
+    deck = cursor.fetchone()
+
+    if not deck:
+        cursor.close()
+        db.close()
+        flash("Deck not found or you don't have permission to view it.", "danger")
+        return redirect(url_for("flashcards"))
+
+    if request.method == "POST":
+        question = request.form.get("question", "").strip()
+        answer = request.form.get("answer", "").strip()
+
+        if not question or not answer:
+            flash("Both a question and an answer are required.", "danger")
+        else:
+            insert_cursor = db.cursor()
+            insert_cursor.execute(
+                "INSERT INTO flashcards (deck_id, question, answer) VALUES (%s, %s, %s)",
+                (deck_id, question, answer)
+            )
+            db.commit()
+            insert_cursor.close()
+            flash("Flashcard added!", "success")
+
+        cursor.close()
+        db.close()
+        return redirect(url_for("deck_detail", deck_id=deck_id))
+
+    # GET: deck already confirmed to exist and belong to this user
+    cursor.execute("SELECT * FROM flashcards WHERE deck_id = %s", (deck_id,))
+    cards = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return render_template("deck_detail.html", deck=deck, cards=cards)
+
+
+@app.route("/flashcards/<int:deck_id>/delete", methods=["POST"])
+@login_required
+def delete_deck(deck_id):
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    # Verify ownership BEFORE deleting anything
+    cursor.execute("SELECT * FROM flashcard_decks WHERE id = %s AND user_id = %s", (deck_id, current_user.id))
+    deck = cursor.fetchone()
+
+    if not deck:
+        cursor.close()
+        db.close()
+        flash("Deck not found or you don't have permission to delete it.", "danger")
+        return redirect(url_for("flashcards"))
+
+    delete_cursor = db.cursor()
+    delete_cursor.execute("DELETE FROM flashcards WHERE deck_id = %s", (deck_id,))
+    delete_cursor.execute("DELETE FROM flashcard_decks WHERE id = %s AND user_id = %s", (deck_id, current_user.id))
+    db.commit()
+    delete_cursor.close()
+    cursor.close()
+    db.close()
+
+    flash("Deck deleted.", "success")
+    return redirect(url_for("flashcards"))
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True, port=5001)
