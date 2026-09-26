@@ -223,3 +223,17 @@ insert  into `users`(`id`,`username`,`email`,`password_hash`,`created_at`) value
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+
+--------- here ko ni sumpay 
+
+USE studysync;
+ALTER TABLE users ADD COLUMN is_verified BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE expenses ADD COLUMN category VARCHAR(50) DEFAULT 'Other';
+
+describe users;
+describe expenses;
+
+SELECT * FROM users WHERE username = 'dedios';
+SELECT * FROM tasks WHERE user_id = (SELECT id FROM users WHERE username = 'dedios');
+

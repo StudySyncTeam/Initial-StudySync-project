@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudySync - Tasks</title>
+</head>
+<body>
+    <header>
+        <h1>To-Do List</h1>
+        <p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a> | <a href="{{ url_for('logout') }}">Logout</a></p>
+    </header>
+
+    <hr>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <main>
+        <h3>Add a Task</h3>
+        <form method="POST" action="{{ url_for('tasks') }}">
+            <label for="title">Title</label><br>
+            <input type="text" id="title" name="title" required><br><br>
+
+            <label for="description">Description</label><br>
+            <textarea id="description" name="description"></textarea><br><br>
+
+            <label for="due_date">Due Date</label><br>
+            <input type="date" id="due_date" name="due_date"><br><br>
+
+            <label for="priority">Priority</label><br>
+            <select id="priority" name="priority">
+                <option value="Low">Low</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="High">High</option>
+            </select><br><br>
+
+            <button type="submit">Add Task</button>
+        </form>
+
+        <hr>
+
+        <h3>Your Tasks</h3>
+
+        {% if tasks %}
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description or '' }}</td>
+                    <td>{{ task.due_date or 'No due date' }}</td>
+                    <td>{{ task.priority }}</td>
+                    <td>{{ 'Done' if task.completed else 'Pending' }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('complete_task', task_id=task.id) }}" style="display:inline;">
+                            <button type="submit">{{ 'Undo' if task.completed else 'Mark Complete' }}</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No tasks yet — add one above.</p>
+        {% endif %}
+    </main>
+</body>
+</html>
