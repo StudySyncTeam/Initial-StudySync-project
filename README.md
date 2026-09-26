@@ -1,2 +1,2 @@
 # Initial-StudySync-project
-di pa paynal gays
+PRAJEK SA IT5
